@@ -39,8 +39,8 @@ jobs:
       - name: Flutter Analyze
         run: flutter analyze
 
-      - name: Flutter Tests
-        run: flutter test
+      - name: Flutter Tests - macOS functional and render smoke
+        run: flutter test --update-goldens
 
       - name: CocoaPods Version
         run: pod --version
@@ -65,3 +65,4 @@ jobs:
           path: build/ios/iphoneos/Runner.app
           retention-days: 7
           if-no-files-found: error
+
