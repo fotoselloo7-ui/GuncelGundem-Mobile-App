@@ -1,0 +1,67 @@
+﻿name: iOS Preflight
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  ios-preflight:
+    runs-on: macos-26
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Environment
+        run: |
+          echo "===== macOS ====="
+          sw_vers
+          echo "===== Xcode ====="
+          xcode-select -p
+          xcodebuild -version
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.4'
+          channel: stable
+          cache: true
+
+      - name: Flutter Version
+        run: flutter --version
+
+      - name: Flutter Dependencies
+        run: flutter pub get
+
+      - name: Flutter Analyze
+        run: flutter analyze
+
+      - name: Flutter Tests
+        run: flutter test
+
+      - name: CocoaPods Version
+        run: pod --version
+
+      - name: Install Pods
+        run: |
+          cd ios
+          pod install --repo-update
+
+      - name: Build iOS Release Without Signing
+        run: flutter build ios --release --no-codesign
+
+      - name: Verify Runner App
+        run: |
+          test -d build/ios/iphoneos/Runner.app
+          ls -lah build/ios/iphoneos/Runner.app
+
+      - name: Upload Unsigned iOS Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: guncelgundem-ios-unsigned
+          path: build/ios/iphoneos/Runner.app
+          retention-days: 7
+          if-no-files-found: error
