@@ -17,9 +17,7 @@ jobs:
 
       - name: Environment
         run: |
-          echo "===== macOS ====="
           sw_vers
-          echo "===== Xcode ====="
           xcode-select -p
           xcodebuild -version
 
@@ -33,27 +31,27 @@ jobs:
       - name: Flutter Version
         run: flutter --version
 
+      - name: Enable Swift Package Manager
+        run: flutter config --enable-swift-package-manager
+
       - name: Flutter Dependencies
         run: flutter pub get
+
+      - name: Verify SwiftPM Integration
+        run: |
+          grep -q "FlutterGeneratedPluginSwiftPackage" ios/Runner.xcodeproj/project.pbxproj
+          echo "SwiftPM integration OK"
 
       - name: Flutter Analyze
         run: flutter analyze
 
-      - name: Flutter Tests - macOS functional and render smoke
+      - name: Flutter Tests
         run: flutter test --update-goldens
-
-      - name: CocoaPods Version
-        run: pod --version
-
-      - name: Install Pods
-        run: |
-          cd ios
-          pod install --repo-update
 
       - name: Build iOS Release Without Signing
         run: flutter build ios --release --no-codesign
 
-      - name: Verify Runner App
+      - name: Verify iOS Build
         run: |
           test -d build/ios/iphoneos/Runner.app
           ls -lah build/ios/iphoneos/Runner.app
@@ -65,4 +63,3 @@ jobs:
           path: build/ios/iphoneos/Runner.app
           retention-days: 7
           if-no-files-found: error
-
