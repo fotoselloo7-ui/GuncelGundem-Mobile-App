@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GüncelGündem marka renkleri (orijinal logo) -->
+    <color name="ic_launcher_background">#FFFFFF</color>
+    <!-- BrandedStartupScreen'in dış arka plan rengiyle aynı. Native splash
+         ve Flutter splash arasında renk sıçraması olmasın diye. -->
+    <color name="splash_background">#05080F</color>
+    <color name="brand_red">#E30613</color>
+    <color name="brand_navy">#0D2B55</color>
+</resources>

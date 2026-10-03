@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "news_20260929_eaae56",
+      "slug": "ordu-altinordu-da-kaybolan-balikci-ozen-arslan-olu-bulundu",
+      "title": "Ordu Altınordu'da kaybolan balıkçı Özen Arslan ölü bulundu",
+      "summary": "Ordu'nun Altınordu ilçesinde denize açıldıktan sonra haber alınamayan olta balıkçısı Özen Arslan'ın cansız bedenine ulaşıldı.",
+      "cover_url": "https://guncelgundem.tr/uploads/articles/cover_a523fabc7df1da32.jpg",
+      "primary_category": {
+        "id": "cat_turkiye",
+        "name": "Türkiye",
+        "slug": "turkiye"
+      },
+      "categories": [
+        {
+          "id": "cat_turkiye",
+          "name": "Türkiye",
+          "slug": "turkiye"
+        }
+      ],
+      "locations": [],
+      "published_at": "2026-09-29T09:37:05+03:00",
+      "modified_at": "2026-09-29T09:37:05+03:00",
+      "breaking": false,
+      "featured": false,
+      "reading_time": 3,
+      "canonical_url": "https://guncelgundem.tr/haber/ordu-altinordu-da-kaybolan-balikci-ozen-arslan-olu-bulundu"
+    }
+  ],
+  "meta": {
+    "timestamp": "2026-09-30T23:02:12+03:00",
+    "version": "v1",
+    "query": "haber",
+    "page": 1,
+    "limit": 2,
+    "total": 1,
+    "has_more": false
+  }
+}

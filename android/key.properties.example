@@ -1,0 +1,18 @@
+# GüncelGündem — Android Release İmza Yapılandırma Şablonu
+#
+# Bu dosyayı `android/key.properties` olarak KOPYALAYIN ve gerçek değerleri
+# girin. `.gitignore` sayesinde gerçek `key.properties` ve `*.jks` dosyaları
+# repoya KOMMİTLENMEZ.
+#
+# Keystore oluşturma:
+#   keytool -genkey -v -keystore ~/guncelgundem-upload.jks -keyalg RSA \
+#     -keysize 2048 -validity 10000 -alias guncelgundem
+#
+# Fingerprint (assetlinks.json için):
+#   keytool -list -v -keystore ~/guncelgundem-upload.jks -alias guncelgundem | grep SHA256
+
+storePassword=KEYSTORE_PASSWORD_BURAYA
+keyPassword=KEY_PASSWORD_BURAYA
+keyAlias=guncelgundem
+# Mutlak yol kullanın (örn. C:/Users/pc/keystores/guncelgundem-upload.jks)
+storeFile=KEYSTORE_PATH_BURAYA

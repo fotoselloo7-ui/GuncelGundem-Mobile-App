@@ -1,0 +1,208 @@
+{
+  "success": true,
+  "data": {
+    "id": "blog_20260930_9558f6",
+    "slug": "evde-profesyonel-v60-kahve-demleme-rehberi-2026",
+    "title": "Evde Profesyonel V60 Kahve Demleme Rehberi 2026",
+    "summary": "Nitelikli kahve çekirdeklerinden maksimum aroma elde etmek için adım adım V60 filtre kahve demleme teknikleri.",
+    "cover_url": "https://guncelgundem.tr/assets/images/demo/analysis-ai.svg",
+    "cover_alt": "Ahşap masa üzerinde V60 kahve demleme ekipmanı ve dumanı tüten taze kahve",
+    "cover_caption": "Doğru su sıcaklığı ve öğütme derecesi ile fincandaki tat profilini zirveye taşıyın.",
+    "cover_credit": "Güncel Gündem Gastronomi",
+    "category": {
+      "id": "bcat_gastronomi_mutfak_kulturu",
+      "parent_id": null,
+      "name": "Gastronomi & Mutfak Kültürü",
+      "slug": "gastronomi-mutfak-kulturu",
+      "description": "Mutfak teknikleri, malzeme bilimi ve yeme içme kültürü analizleri.",
+      "icon": "🍷",
+      "icon_key": null,
+      "cover_url": null,
+      "article_count": 1,
+      "canonical_url": "https://guncelgundem.tr/blog/gastronomi-mutfak-kulturu/"
+    },
+    "primary_category": {
+      "id": "bcat_gastronomi_mutfak_kulturu_kahve_kulturu",
+      "parent_id": "bcat_gastronomi_mutfak_kulturu",
+      "name": "Kahve Kültürü",
+      "slug": "kahve-kulturu",
+      "description": "3. dalga demleme yöntemleri, çekirdek türleri ve barista rehberleri.",
+      "icon": "🍷",
+      "icon_key": null,
+      "cover_url": null,
+      "article_count": 1,
+      "canonical_url": "https://guncelgundem.tr/blog/gastronomi-mutfak-kulturu/kahve-kulturu/"
+    },
+    "subcategory": {
+      "id": "bcat_gastronomi_mutfak_kulturu_kahve_kulturu",
+      "parent_id": "bcat_gastronomi_mutfak_kulturu",
+      "name": "Kahve Kültürü",
+      "slug": "kahve-kulturu",
+      "description": "3. dalga demleme yöntemleri, çekirdek türleri ve barista rehberleri.",
+      "icon": "🍷",
+      "icon_key": null,
+      "cover_url": null,
+      "article_count": 1,
+      "canonical_url": "https://guncelgundem.tr/blog/gastronomi-mutfak-kulturu/kahve-kulturu/"
+    },
+    "categories": [
+      {
+        "id": "bcat_gastronomi_mutfak_kulturu",
+        "parent_id": null,
+        "name": "Gastronomi & Mutfak Kültürü",
+        "slug": "gastronomi-mutfak-kulturu",
+        "description": "Mutfak teknikleri, malzeme bilimi ve yeme içme kültürü analizleri.",
+        "icon": "🍷",
+        "icon_key": null,
+        "cover_url": null,
+        "article_count": 1,
+        "canonical_url": "https://guncelgundem.tr/blog/gastronomi-mutfak-kulturu/"
+      },
+      {
+        "id": "bcat_gastronomi_mutfak_kulturu_kahve_kulturu",
+        "parent_id": "bcat_gastronomi_mutfak_kulturu",
+        "name": "Kahve Kültürü",
+        "slug": "kahve-kulturu",
+        "description": "3. dalga demleme yöntemleri, çekirdek türleri ve barista rehberleri.",
+        "icon": "🍷",
+        "icon_key": null,
+        "cover_url": null,
+        "article_count": 1,
+        "canonical_url": "https://guncelgundem.tr/blog/gastronomi-mutfak-kulturu/kahve-kulturu/"
+      }
+    ],
+    "authors": [],
+    "locations": [],
+    "published_at": "2026-09-30T00:44:55+03:00",
+    "modified_at": "2026-09-30T01:10:34+03:00",
+    "reading_time": 3,
+    "featured": false,
+    "canonical_url": "https://guncelgundem.tr/blog/evde-profesyonel-v60-kahve-demleme-rehberi-2026",
+    "url": "https://guncelgundem.tr/blog/evde-profesyonel-v60-kahve-demleme-rehberi-2026",
+    "share_url": "https://guncelgundem.tr/blog/evde-profesyonel-v60-kahve-demleme-rehberi-2026",
+    "body": {
+      "format": "blocks",
+      "blocks": [
+        {
+          "type": "heading2",
+          "text": "V60 Demleme Sanatının Temelleri"
+        },
+        {
+          "type": "paragraph",
+          "text": "Nitelikli kahve hazırlarken suyun kalitesinden döküş geometrisine kadar her değişken fincandaki tat profilini doğrudan etkiler. Özel seçilmiş tek kökenli kahve çekirdeklerinin sahip olduğu kompleks aromatik bileşenleri, meyvemsi asiditeyi ve tatlı bitişi fincana aktarabilmek için doğru ekstraksiyon dengesini kurmak gerekir. Konik yapıdaki V60 dripper, 60 derecelik açısı ve iç yüzeyindeki spiral yivler sayesinde suyun kahve yatağı boyunca homojen şekilde süzülmesini ve karbondioksit gazının rahatça tahliye edilmesini sağlar."
+        },
+        {
+          "type": "heading2",
+          "text": "Doğru Su Sıcaklığı ve Oranlar"
+        },
+        {
+          "type": "paragraph",
+          "text": "Kaynar su kahveyi yakarak acılaştırabilir ve arzu edilmeyen tanenlerin çözünmesine yol açar. Bu sebeple 92-94 derece aralığındaki su sıcaklığı ideal çözünmeyi sağlar. Demleme reçetesinde 1:16 kahve su oranı (15 gram kahve için 240 gram su) mükemmel bir denge sunar. Ön demleme aşamasında yaklaşık 45 gram su dökülerek 30-45 saniye beklenmeli, ardından dairesel hareketlerle su yavaşça eklenmelidir. Su döküş hızı akış debisini kontrol ederken, kahve yatağının çökmesini engelleyerek temiz ve dengeli bir gövde oluşumuna katkıda bulunur."
+        },
+        {
+          "type": "heading2",
+          "text": "Öğütüm Boyutu ve Ekstraksiyon İncelikleri"
+        },
+        {
+          "type": "paragraph",
+          "text": "V60 demlemede öğütüm boyutu en kritik parametrelerden biridir. Çok ince öğütülen kahve filtreyi tıkayarak aşırı ekstraksiyona (over-extraction) ve acı tatlara sebep olurken, gereğinden kalın öğütülen kahve ise suyun hızla akmasına yol açarak zayıf ve ekşi bir fincan (under-extraction) üretir. İdeal öğütüm orta-ince deniz tuzu kıvamında olmalıdır. Ayrıca mineral içeriği dengeli, 50-120 ppm aralığında kaliteli içme suyu kullanmak fincandaki berraklığı ve tat derinliğini belirgin biçimde artırır."
+        },
+        {
+          "type": "factbox",
+          "title": "Önemli İpucu",
+          "text": "Filtre kağıdını önceden sıcak suyla yıkamak kağıt tadının kahveye geçmesini engeller ve dripperı ısıtır.",
+          "items": []
+        }
+      ]
+    },
+    "direct_answer_summary": "V60 filtre kahve demlemek için 1:16 kahve su oranı (15g kahveye 240g su) ve 92-94°C su sıcaklığı idealdir. Orta incelikte öğütülmüş kahveye 45 saniyelik ön demleme (blooming) sonrası dairesel döküş uygulanır.",
+    "key_takeaways": [
+      "Su sıcaklığı 92-94°C aralığında olmalıdır.",
+      "15 gram kahveye 240 gram su oranı ideal gövde ve asiditeyi sunar.",
+      "Toplam demleme süresi 2.5 - 3 dakikayı geçmemelidir."
+    ],
+    "tags": [],
+    "topics": [],
+    "entities": [],
+    "sources": [],
+    "faq": [
+      {
+        "question": "V60 için hangi öğütüm derecesi uygundur?",
+        "answer": "Deniz tuzu büyüklüğünde, orta-ince öğütüm tercih edilmelidir."
+      },
+      {
+        "question": "Ön demleme (blooming) süresi ne kadar olmalıdır?",
+        "answer": "Kahve ağırlığının 2-3 katı su dökülerek 30-45 saniye beklenmelidir."
+      }
+    ],
+    "schema_recipe": {
+      "recipe_name": "Klasik V60 Filtre Kahve",
+      "description": "3 dakikada berrak ve aromatik V60 filtre kahve tarifi.",
+      "prep_time": "2 dk",
+      "cook_time": "3 dk",
+      "total_time": "5 dk",
+      "servings": "1 Kişilik",
+      "ingredients": [
+        "15g taze kavrulmuş kahve",
+        "240ml arıtılmış sıcak su (93°C)",
+        "V60 kağıt filtre"
+      ],
+      "instructions": [
+        "Filtre kağıdını sıcak suyla ıslatın.",
+        "Kahveyi filtreye döküp yüzeyi düzleştirin.",
+        "45g su döküp 30sn ön demleme yapın.",
+        "Kalan suyu dairesel hareketlerle 2.30 dakikaya kadar tamamlayın."
+      ],
+      "calories": "2 kcal",
+      "cuisine": "Uluslararası Kahve Kültürü",
+      "course": "İçecek",
+      "difficulty": "Kolay",
+      "recipe_keywords": [
+        "kahve",
+        "v60",
+        "filtre kahve"
+      ],
+      "image": "/assets/images/demo/analysis-ai.svg",
+      "author": null,
+      "date_published": null,
+      "date_modified": null
+    },
+    "recipe": {
+      "recipe_name": "Klasik V60 Filtre Kahve",
+      "description": "3 dakikada berrak ve aromatik V60 filtre kahve tarifi.",
+      "prep_time": "2 dk",
+      "cook_time": "3 dk",
+      "total_time": "5 dk",
+      "servings": "1 Kişilik",
+      "ingredients": [
+        "15g taze kavrulmuş kahve",
+        "240ml arıtılmış sıcak su (93°C)",
+        "V60 kağıt filtre"
+      ],
+      "instructions": [
+        "Filtre kağıdını sıcak suyla ıslatın.",
+        "Kahveyi filtreye döküp yüzeyi düzleştirin.",
+        "45g su döküp 30sn ön demleme yapın.",
+        "Kalan suyu dairesel hareketlerle 2.30 dakikaya kadar tamamlayın."
+      ],
+      "calories": "2 kcal",
+      "cuisine": "Uluslararası Kahve Kültürü",
+      "course": "İçecek",
+      "difficulty": "Kolay",
+      "recipe_keywords": [
+        "kahve",
+        "v60",
+        "filtre kahve"
+      ],
+      "image": "/assets/images/demo/analysis-ai.svg",
+      "author": null,
+      "date_published": null,
+      "date_modified": null
+    },
+    "related_articles": []
+  },
+  "meta": {
+    "timestamp": "2026-10-01T04:05:59+03:00",
+    "version": "v1"
+  }
+}

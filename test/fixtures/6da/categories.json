@@ -1,0 +1,565 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "cat_son_dakika",
+      "name": "Son Dakika",
+      "slug": "son-dakika",
+      "parent_id": null,
+      "display_order": 5,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+      "canonical_url": "https://guncelgundem.tr/son-dakika/",
+      "children": []
+    },
+    {
+      "id": "cat_yemek_tarifleri",
+      "name": "Yemek Tarifleri",
+      "slug": "yemek-tarifleri",
+      "parent_id": null,
+      "display_order": 5,
+      "is_menu": false,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+      "canonical_url": "https://guncelgundem.tr/yemek-tarifleri/",
+      "children": []
+    },
+    {
+      "id": "cat_gundem",
+      "name": "Gündem",
+      "slug": "gundem",
+      "parent_id": null,
+      "display_order": 10,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/gundem.svg",
+      "canonical_url": "https://guncelgundem.tr/gundem/",
+      "children": [
+        {
+          "id": "cat_deprem_ve_afet",
+          "name": "Deprem ve Afet",
+          "slug": "deprem-ve-afet",
+          "parent_id": "cat_gundem",
+          "display_order": 1,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/deprem-ve-afet/"
+        },
+        {
+          "id": "cat_asayis",
+          "name": "Asayiş",
+          "slug": "asayis",
+          "parent_id": "cat_gundem",
+          "display_order": 2,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/asayis/"
+        },
+        {
+          "id": "cat_cevre",
+          "name": "Çevre",
+          "slug": "cevre",
+          "parent_id": "cat_gundem",
+          "display_order": 3,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/cevre.svg",
+          "canonical_url": "https://guncelgundem.tr/cevre/"
+        },
+        {
+          "id": "cat_trafik",
+          "name": "Trafik",
+          "slug": "trafik",
+          "parent_id": "cat_gundem",
+          "display_order": 4,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/trafik/"
+        }
+      ]
+    },
+    {
+      "id": "cat_saglik_yasam",
+      "name": "Sağlık & Yaşam",
+      "slug": "saglik-ve-yasam",
+      "parent_id": null,
+      "display_order": 10,
+      "is_menu": false,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+      "canonical_url": "https://guncelgundem.tr/saglik-ve-yasam/",
+      "children": []
+    },
+    {
+      "id": "cat_teknoloji_rehber",
+      "name": "Teknoloji & Rehber",
+      "slug": "teknoloji-ve-rehber",
+      "parent_id": null,
+      "display_order": 15,
+      "is_menu": false,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+      "canonical_url": "https://guncelgundem.tr/teknoloji-ve-rehber/",
+      "children": []
+    },
+    {
+      "id": "cat_turkiye",
+      "name": "Türkiye",
+      "slug": "turkiye",
+      "parent_id": null,
+      "display_order": 15,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/turkiye.svg",
+      "canonical_url": "https://guncelgundem.tr/turkiye/",
+      "children": []
+    },
+    {
+      "id": "cat_siyaset",
+      "name": "Siyaset",
+      "slug": "siyaset",
+      "parent_id": null,
+      "display_order": 18,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/siyaset.svg",
+      "canonical_url": "https://guncelgundem.tr/siyaset/",
+      "children": []
+    },
+    {
+      "id": "cat_ekonomi",
+      "name": "Ekonomi",
+      "slug": "ekonomi",
+      "parent_id": null,
+      "display_order": 20,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/ekonomi.svg",
+      "canonical_url": "https://guncelgundem.tr/ekonomi/",
+      "children": [
+        {
+          "id": "cat_doviz",
+          "name": "Döviz",
+          "slug": "doviz",
+          "parent_id": "cat_ekonomi",
+          "display_order": 1,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/doviz/"
+        },
+        {
+          "id": "cat_altin",
+          "name": "Altın",
+          "slug": "altin",
+          "parent_id": "cat_ekonomi",
+          "display_order": 2,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/altin/"
+        },
+        {
+          "id": "cat_borsa",
+          "name": "Borsa",
+          "slug": "borsa",
+          "parent_id": "cat_ekonomi",
+          "display_order": 3,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/borsa/"
+        },
+        {
+          "id": "cat_kripto",
+          "name": "Kripto",
+          "slug": "kripto",
+          "parent_id": "cat_ekonomi",
+          "display_order": 4,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/kripto/"
+        },
+        {
+          "id": "cat_emekli",
+          "name": "Emekli",
+          "slug": "emekli",
+          "parent_id": "cat_ekonomi",
+          "display_order": 5,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/emekli/"
+        },
+        {
+          "id": "cat_maaslar",
+          "name": "Maaşlar",
+          "slug": "maaslar",
+          "parent_id": "cat_ekonomi",
+          "display_order": 6,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/maaslar/"
+        }
+      ]
+    },
+    {
+      "id": "cat_gezi_kesif",
+      "name": "Gezi & Keşif",
+      "slug": "gezi-ve-kesif",
+      "parent_id": null,
+      "display_order": 20,
+      "is_menu": false,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+      "canonical_url": "https://guncelgundem.tr/gezi-ve-kesif/",
+      "children": []
+    },
+    {
+      "id": "cat_ev_pratik_bilgiler",
+      "name": "Ev & Pratik Bilgiler",
+      "slug": "ev-ve-pratik-bilgiler",
+      "parent_id": null,
+      "display_order": 25,
+      "is_menu": false,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+      "canonical_url": "https://guncelgundem.tr/ev-ve-pratik-bilgiler/",
+      "children": []
+    },
+    {
+      "id": "cat_egitim_kariyer",
+      "name": "Eğitim & Kariyer",
+      "slug": "egitim-ve-kariyer",
+      "parent_id": null,
+      "display_order": 30,
+      "is_menu": false,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+      "canonical_url": "https://guncelgundem.tr/egitim-ve-kariyer/",
+      "children": []
+    },
+    {
+      "id": "cat_spor",
+      "name": "Spor",
+      "slug": "spor",
+      "parent_id": null,
+      "display_order": 30,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/spor.svg",
+      "canonical_url": "https://guncelgundem.tr/spor/",
+      "children": [
+        {
+          "id": "cat_futbol",
+          "name": "Futbol",
+          "slug": "futbol",
+          "parent_id": "cat_spor",
+          "display_order": 1,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/futbol/"
+        },
+        {
+          "id": "cat_basketbol",
+          "name": "Basketbol",
+          "slug": "basketbol",
+          "parent_id": "cat_spor",
+          "display_order": 2,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/basketbol/"
+        },
+        {
+          "id": "cat_transfer",
+          "name": "Transfer",
+          "slug": "transfer",
+          "parent_id": "cat_spor",
+          "display_order": 3,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/transfer/"
+        },
+        {
+          "id": "cat_galatasaray",
+          "name": "Galatasaray",
+          "slug": "galatasaray",
+          "parent_id": "cat_spor",
+          "display_order": 4,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/galatasaray/"
+        },
+        {
+          "id": "cat_fenerbahce",
+          "name": "Fenerbahçe",
+          "slug": "fenerbahce",
+          "parent_id": "cat_spor",
+          "display_order": 5,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/fenerbahce/"
+        },
+        {
+          "id": "cat_besiktas",
+          "name": "Beşiktaş",
+          "slug": "besiktas",
+          "parent_id": "cat_spor",
+          "display_order": 6,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/besiktas/"
+        },
+        {
+          "id": "cat_trabzonspor",
+          "name": "Trabzonspor",
+          "slug": "trabzonspor",
+          "parent_id": "cat_spor",
+          "display_order": 7,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/trabzonspor/"
+        }
+      ]
+    },
+    {
+      "id": "cat_finans_tuketici",
+      "name": "Finans & Tüketici",
+      "slug": "finans-ve-tuketici",
+      "parent_id": null,
+      "display_order": 35,
+      "is_menu": false,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+      "canonical_url": "https://guncelgundem.tr/finans-ve-tuketici/",
+      "children": []
+    },
+    {
+      "id": "cat_dunya",
+      "name": "Dünya",
+      "slug": "dunya",
+      "parent_id": null,
+      "display_order": 40,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/dunya.svg",
+      "canonical_url": "https://guncelgundem.tr/dunya/",
+      "children": []
+    },
+    {
+      "id": "cat_teknoloji",
+      "name": "Teknoloji",
+      "slug": "teknoloji",
+      "parent_id": null,
+      "display_order": 50,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/teknoloji.svg",
+      "canonical_url": "https://guncelgundem.tr/teknoloji/",
+      "children": [
+        {
+          "id": "cat_yapay_zeka",
+          "name": "Yapay Zeka",
+          "slug": "yapay-zeka",
+          "parent_id": "cat_teknoloji",
+          "display_order": 1,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/yapay-zeka/"
+        },
+        {
+          "id": "cat_mobil",
+          "name": "Mobil",
+          "slug": "mobil",
+          "parent_id": "cat_teknoloji",
+          "display_order": 2,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/mobil/"
+        },
+        {
+          "id": "cat_internet",
+          "name": "İnternet",
+          "slug": "internet",
+          "parent_id": "cat_teknoloji",
+          "display_order": 3,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/internet/"
+        },
+        {
+          "id": "cat_bilim",
+          "name": "Bilim",
+          "slug": "bilim",
+          "parent_id": "cat_teknoloji",
+          "display_order": 4,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/bilim/"
+        },
+        {
+          "id": "cat_savunma_teknolojileri",
+          "name": "Savunma Teknolojileri",
+          "slug": "savunma-teknolojileri",
+          "parent_id": "cat_teknoloji",
+          "display_order": 5,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/savunma-teknolojileri/"
+        }
+      ]
+    },
+    {
+      "id": "cat_yasam",
+      "name": "Yaşam",
+      "slug": "yasam",
+      "parent_id": null,
+      "display_order": 60,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/yasam.svg",
+      "canonical_url": "https://guncelgundem.tr/yasam/",
+      "children": [
+        {
+          "id": "cat_seyahat",
+          "name": "Seyahat",
+          "slug": "seyahat",
+          "parent_id": "cat_yasam",
+          "display_order": 1,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/seyahat/"
+        },
+        {
+          "id": "cat_gastronomi",
+          "name": "Gastronomi",
+          "slug": "gastronomi",
+          "parent_id": "cat_yasam",
+          "display_order": 2,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/gastronomi/"
+        },
+        {
+          "id": "cat_insan",
+          "name": "İnsan",
+          "slug": "insan",
+          "parent_id": "cat_yasam",
+          "display_order": 3,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/insan/"
+        },
+        {
+          "id": "cat_ev_ve_yasam",
+          "name": "Ev ve Yaşam",
+          "slug": "ev-ve-yasam",
+          "parent_id": "cat_yasam",
+          "display_order": 4,
+          "is_menu": true,
+          "is_homepage": true,
+          "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+          "canonical_url": "https://guncelgundem.tr/ev-ve-yasam/"
+        }
+      ]
+    },
+    {
+      "id": "cat_saglik",
+      "name": "Sağlık",
+      "slug": "saglik",
+      "parent_id": null,
+      "display_order": 70,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/saglik.svg",
+      "canonical_url": "https://guncelgundem.tr/saglik/",
+      "children": []
+    },
+    {
+      "id": "cat_egitim",
+      "name": "Eğitim",
+      "slug": "egitim",
+      "parent_id": null,
+      "display_order": 80,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/egitim.svg",
+      "canonical_url": "https://guncelgundem.tr/egitim/",
+      "children": []
+    },
+    {
+      "id": "cat_kultur_sanat",
+      "name": "Kültür Sanat",
+      "slug": "kultur-sanat",
+      "parent_id": null,
+      "display_order": 90,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/kultur-sanat.svg",
+      "canonical_url": "https://guncelgundem.tr/kultur-sanat/",
+      "children": []
+    },
+    {
+      "id": "cat_spor_saglikli_yasam",
+      "name": "Spor & Sağlıklı Yaşam",
+      "slug": "spor-ve-saglikli-yasam",
+      "parent_id": null,
+      "display_order": 95,
+      "is_menu": false,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/default.svg",
+      "canonical_url": "https://guncelgundem.tr/spor-ve-saglikli-yasam/",
+      "children": []
+    },
+    {
+      "id": "cat_otomobil",
+      "name": "Otomobil",
+      "slug": "otomobil",
+      "parent_id": null,
+      "display_order": 100,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/otomobil.svg",
+      "canonical_url": "https://guncelgundem.tr/otomobil/",
+      "children": []
+    },
+    {
+      "id": "cat_yerel_haberler",
+      "name": "Yerel Haberler",
+      "slug": "yerel-haberler",
+      "parent_id": null,
+      "display_order": 110,
+      "is_menu": true,
+      "is_homepage": true,
+      "cover_url": "https://guncelgundem.tr/assets/images/news-fallback/yerel-haberler.svg",
+      "canonical_url": "https://guncelgundem.tr/yerel-haberler/",
+      "children": []
+    }
+  ],
+  "meta": {
+    "timestamp": "2026-09-30T23:02:05+03:00",
+    "version": "v1",
+    "total_roots": 22
+  }
+}

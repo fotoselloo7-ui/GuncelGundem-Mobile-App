@@ -1,0 +1,67 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "news_20260929_0cc0a7",
+      "slug": "adalet-bakani-akin-gurlek-ten-hakemler-dosyasi-sorusturmasi-aciklamasi",
+      "title": "Adalet Bakanı Akın Gürlek'ten Hakemler Dosyası Soruşturması Açıklaması",
+      "summary": "Adalet Bakanı Akın Gürlek, hakemler dosyası soruşturması kapsamında temiz futbol mücadelesini kararlılıkla sürdüreceklerini belirtti.",
+      "cover_url": "https://guncelgundem.tr/uploads/articles/cover_d13563078e7ea2e2.jpg",
+      "primary_category": {
+        "id": "cat_gundem",
+        "name": "Gündem",
+        "slug": "gundem"
+      },
+      "categories": [
+        {
+          "id": "cat_gundem",
+          "name": "Gündem",
+          "slug": "gundem"
+        }
+      ],
+      "locations": [],
+      "published_at": "2026-09-29T09:43:06+03:00",
+      "modified_at": "2026-09-29T09:43:06+03:00",
+      "breaking": true,
+      "featured": false,
+      "reading_time": 3,
+      "canonical_url": "https://guncelgundem.tr/haber/adalet-bakani-akin-gurlek-ten-hakemler-dosyasi-sorusturmasi-aciklamasi"
+    },
+    {
+      "id": "news_20260929_bed529",
+      "slug": "ibm-nighthawk-r2-kuantum-bilgisayari-110-yillik-hesaplamayi-19-saniyede-tamamladi",
+      "title": "IBM Nighthawk r2 kuantum bilgisayarı 110 yıllık hesaplamayı 19 saniyede tamamladı",
+      "summary": "IBM'in yeni kuantum işlemcisi Nighthawk r2, geleneksel bir süper bilgisayarın 110 yılda çözebileceği hesaplamayı 19 saniyede bitirdi.",
+      "cover_url": "https://guncelgundem.tr/uploads/articles/cover_93f160f468c0dfe7.jpg",
+      "primary_category": {
+        "id": "cat_dunya",
+        "name": "Dünya",
+        "slug": "dunya"
+      },
+      "categories": [
+        {
+          "id": "cat_dunya",
+          "name": "Dünya",
+          "slug": "dunya"
+        }
+      ],
+      "locations": [],
+      "published_at": "2026-09-29T09:37:07+03:00",
+      "modified_at": "2026-09-29T09:37:07+03:00",
+      "breaking": true,
+      "featured": false,
+      "reading_time": 3,
+      "canonical_url": "https://guncelgundem.tr/haber/ibm-nighthawk-r2-kuantum-bilgisayari-110-yillik-hesaplamayi-19-saniyede-tamamladi"
+    }
+  ],
+  "meta": {
+    "timestamp": "2026-09-30T23:02:11+03:00",
+    "version": "v1",
+    "page": 1,
+    "limit": 2,
+    "total": 1676,
+    "has_more": true,
+    "category_slug": "son-dakika",
+    "category_name": "Son Dakika"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "news_20260929_eaae56",
+      "slug": "ordu-altinordu-da-kaybolan-balikci-ozen-arslan-olu-bulundu",
+      "title": "Ordu Altınordu'da kaybolan balıkçı Özen Arslan ölü bulundu",
+      "summary": "Ordu'nun Altınordu ilçesinde denize açıldıktan sonra haber alınamayan olta balıkçısı Özen Arslan'ın cansız bedenine ulaşıldı.",
+      "cover_url": "https://guncelgundem.tr/uploads/articles/cover_a523fabc7df1da32.jpg",
+      "primary_category": {
+        "id": "cat_turkiye",
+        "name": "Türkiye",
+        "slug": "turkiye"
+      },
+      "categories": [
+        {
+          "id": "cat_turkiye",
+          "name": "Türkiye",
+          "slug": "turkiye"
+        }
+      ],
+      "locations": [],
+      "published_at": "2026-09-29T09:37:05+03:00",
+      "modified_at": "2026-09-29T09:37:05+03:00",
+      "breaking": true,
+      "featured": false,
+      "reading_time": 3,
+      "canonical_url": "https://guncelgundem.tr/haber/ordu-altinordu-da-kaybolan-balikci-ozen-arslan-olu-bulundu"
+    },
+    {
+      "id": "news_20260929_11bd13",
+      "slug": "mhk-baskani-ferhat-gundogdu-dahil-7-kisi-gozaltina-alindi",
+      "title": "MHK Başkanı Ferhat Gündoğdu dahil 7 kişi gözaltına alındı",
+      "summary": "Mobbing ve resmi belgede sahtecilik iddialarına ilişkin yürütülen soruşturmada aralarında MHK Başkanı Ferhat Gündoğdu'nun da olduğu 7 kişi gözaltına alındı.",
+      "cover_url": "https://guncelgundem.tr/uploads/articles/cover_ef5c50d13a8003e8.jpg",
+      "primary_category": {
+        "id": "cat_gundem",
+        "name": "Gündem",
+        "slug": "gundem"
+      },
+      "categories": [
+        {
+          "id": "cat_gundem",
+          "name": "Gündem",
+          "slug": "gundem"
+        }
+      ],
+      "locations": [],
+      "published_at": "2026-09-29T09:22:08+03:00",
+      "modified_at": "2026-09-29T09:22:08+03:00",
+      "breaking": true,
+      "featured": false,
+      "reading_time": 3,
+      "canonical_url": "https://guncelgundem.tr/haber/mhk-baskani-ferhat-gundogdu-dahil-7-kisi-gozaltina-alindi"
+    }
+  ],
+  "meta": {
+    "timestamp": "2026-09-30T23:02:12+03:00",
+    "version": "v1",
+    "page": 2,
+    "limit": 2,
+    "total": 1676,
+    "has_more": true,
+    "category_slug": "son-dakika",
+    "category_name": "Son Dakika"
+  }
+}

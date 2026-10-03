@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+ native splash (SplashScreen API).
+         İKİ SPLASH gösterilmesini önlemek için ikon ve ikon zemini KALDIRILDI;
+         yalnız BrandedStartupScreen ile aynı koyu arka plan görünür ve Flutter
+         ilk kareyi çizer çizmez tek bir splash gibi algılanır. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+        <item name="android:windowSplashScreenBackground">@color/splash_background</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@color/splash_background</item>
+    </style>
+</resources>

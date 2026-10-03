@@ -1,0 +1,112 @@
+{
+  "success": true,
+  "data": {
+    "category": {
+      "id": "bcat_yemek_tarifleri_corbalar",
+      "parent_id": "bcat_yemek_tarifleri",
+      "name": "Çorbalar",
+      "slug": "corbalar",
+      "description": "Geleneksel ve modern iç ısıtan çorba tarifleri.",
+      "icon": "🍲",
+      "icon_key": null,
+      "cover_url": null,
+      "article_count": 1,
+      "canonical_url": "https://guncelgundem.tr/blog/yemek-tarifleri/corbalar/",
+      "children": []
+    },
+    "items": [
+      {
+        "id": "blog_b8_preview_mercimek_corbasi",
+        "slug": "kis-sofralari-icin-tam-kivaminda-mercimek-corbasi",
+        "title": "Kış Sofraları İçin Tam Kıvamında Mercimek Çorbası Tarifi ve Püf Noktaları",
+        "summary": "Lokanta usulü ipeksi kıvamda süzme mercimek çorbası nasıl yapılır? Terbiyesi, tereyağlı nane-pul biber sosu ve gaz yapmayan pişirme sırlarıyla adım adım kış sofrası rehberi.",
+        "cover_url": "https://guncelgundem.tr/assets/images/demo/analysis-featured.svg",
+        "cover_alt": "Dumanı üstünde tereyağlı süzme mercimek çorbası ve limon dilimleri",
+        "cover_caption": "Kış mevsiminin vazgeçilmezi ipeksi kıvamlı mercimek çorbası.",
+        "cover_credit": "Güncel Gündem Mutfak",
+        "category": {
+          "id": "bcat_yemek_tarifleri",
+          "parent_id": null,
+          "name": "Yemek Tarifleri",
+          "slug": "yemek-tarifleri",
+          "description": "Adım adım pratik, nefis ve garantili yemek tarifleri.",
+          "icon": "🍲",
+          "icon_key": null,
+          "cover_url": null,
+          "article_count": 1,
+          "canonical_url": "https://guncelgundem.tr/blog/yemek-tarifleri/"
+        },
+        "primary_category": {
+          "id": "bcat_yemek_tarifleri_corbalar",
+          "parent_id": "bcat_yemek_tarifleri",
+          "name": "Çorbalar",
+          "slug": "corbalar",
+          "description": "Geleneksel ve modern iç ısıtan çorba tarifleri.",
+          "icon": "🍲",
+          "icon_key": null,
+          "cover_url": null,
+          "article_count": 1,
+          "canonical_url": "https://guncelgundem.tr/blog/yemek-tarifleri/corbalar/"
+        },
+        "subcategory": {
+          "id": "bcat_yemek_tarifleri_corbalar",
+          "parent_id": "bcat_yemek_tarifleri",
+          "name": "Çorbalar",
+          "slug": "corbalar",
+          "description": "Geleneksel ve modern iç ısıtan çorba tarifleri.",
+          "icon": "🍲",
+          "icon_key": null,
+          "cover_url": null,
+          "article_count": 1,
+          "canonical_url": "https://guncelgundem.tr/blog/yemek-tarifleri/corbalar/"
+        },
+        "categories": [
+          {
+            "id": "bcat_yemek_tarifleri_corbalar",
+            "parent_id": "bcat_yemek_tarifleri",
+            "name": "Çorbalar",
+            "slug": "corbalar",
+            "description": "Geleneksel ve modern iç ısıtan çorba tarifleri.",
+            "icon": "🍲",
+            "icon_key": null,
+            "cover_url": null,
+            "article_count": 1,
+            "canonical_url": "https://guncelgundem.tr/blog/yemek-tarifleri/corbalar/"
+          },
+          {
+            "id": "bcat_yemek_tarifleri",
+            "parent_id": null,
+            "name": "Yemek Tarifleri",
+            "slug": "yemek-tarifleri",
+            "description": "Adım adım pratik, nefis ve garantili yemek tarifleri.",
+            "icon": "🍲",
+            "icon_key": null,
+            "cover_url": null,
+            "article_count": 1,
+            "canonical_url": "https://guncelgundem.tr/blog/yemek-tarifleri/"
+          }
+        ],
+        "authors": [],
+        "locations": [],
+        "published_at": "2026-09-30T09:00:00+03:00",
+        "modified_at": "2026-09-30T09:55:41+03:00",
+        "reading_time": 4,
+        "featured": true,
+        "canonical_url": "https://guncelgundem.tr/blog/kis-sofralari-icin-tam-kivaminda-mercimek-corbasi",
+        "url": "https://guncelgundem.tr/blog/kis-sofralari-icin-tam-kivaminda-mercimek-corbasi",
+        "share_url": "https://guncelgundem.tr/blog/kis-sofralari-icin-tam-kivaminda-mercimek-corbasi"
+      }
+    ],
+    "pagination": {
+      "current_page": 1,
+      "per_page": 20,
+      "total_items": 1,
+      "total_pages": 1,
+      "has_more": false
+    }
+  },
+  "meta": {
+    "timestamp": "2026-10-01T04:05:57+03:00",
+    "version": "v1"
+  }
+}
