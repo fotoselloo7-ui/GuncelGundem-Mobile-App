@@ -76,7 +76,7 @@ class AppConfig {
 
   /// Uygulama Sürüm Bilgisi
   static const String appVersion = '1.0.0';
-  static const int buildNumber = 1;
+  static const int buildNumber = 3;
 
   /// Üretim legal/privacy linkleri — TEK DOĞRULUK KAYNAĞI.
   ///
@@ -88,6 +88,14 @@ class AppConfig {
   static const String kvkkUrl = '$productionSiteUrl/kvkk/';
   static const String termsUrl = '$productionSiteUrl/kullanim-sartlari/';
   static const String cookiePolicyUrl = '$productionSiteUrl/cerez-politikasi/';
+
+  /// Google Play Haberler ve Dergiler politikası için görünür, kalıcı
+  /// yayıncı/geliştirici iletişim bilgileri. Bu değerler hem Android hem iOS
+  /// uygulamasında aynı native iletişim ekranında kullanılır.
+  static const String publisherName = 'Netvera Teknoloji Yazılım';
+  static const String contactEmail = 'iletisim@guncelgundem.tr';
+  static const String contactUrl = '$productionSiteUrl/iletisim';
+  static const String contactWebsiteUrl = productionSiteUrl;
 
   /// Ayar/bildirim ekranlarının ortak legal bağlantı listesi (başlık + URL).
   /// Tek kaynaktan okunur; yeni bir ekran eklendiğinde kopyalama gerekmez.

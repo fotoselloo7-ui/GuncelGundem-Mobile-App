@@ -12,6 +12,7 @@ import '../../../design/branding_state.dart';
 import '../../home/presentation/home_city.dart';
 import '../../home/presentation/home_widgets.dart';
 import 'personalization_widgets.dart';
+import 'contact_screen.dart';
 
 /// Tercihler / Uygulama Ayarları
 ///
@@ -225,6 +226,18 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                     padding: EdgeInsets.zero,
                     child: Column(
                       children: [
+                        _NavTile(
+                          key: const ValueKey('settings-contact'),
+                          icon: Icons.contact_mail_outlined,
+                          title: 'Bize Ulaşın',
+                          subtitle: 'İletişim ve geliştirici bilgileri',
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => const ContactScreen(),
+                            ),
+                          ),
+                        ),
+                        const Divider(height: 1, color: homeLine),
                         _NavTile(
                           key: const ValueKey('settings-privacy'),
                           icon: Icons.privacy_tip_outlined,
