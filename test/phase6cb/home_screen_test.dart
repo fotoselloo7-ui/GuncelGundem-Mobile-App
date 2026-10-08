@@ -525,11 +525,14 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Bildirimler'));
       await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Bize Ulaşın'));
+      await tester.pumpAndSettle();
       expect(actions, [
         HomeAction.breaking,
         HomeAction.submitNews,
         HomeAction.search,
         HomeAction.notifications,
+        HomeAction.contact,
       ]);
       // 3) Rota açan yuvalar (Şehrim / Video) EN SON denenir: açılan sayfa
       //    üstte kaldığı için Ana Sayfa'nın periyodik ticker'ı pumpAndSettle'ı
@@ -593,7 +596,7 @@ void main() {
       matching: find.byType(InkWell),
     );
     expect(tester.getSize(breaking).height, greaterThanOrEqualTo(48));
-    for (final tooltip in ['Ara', 'Bildirimler']) {
+    for (final tooltip in ['Ara', 'Bildirimler', 'Bize Ulaşın']) {
       final size = tester.getSize(find.byTooltip(tooltip));
       expect(size.height, greaterThanOrEqualTo(48));
       expect(size.width, greaterThanOrEqualTo(48));
