@@ -27,12 +27,14 @@ class HomeBrandHeader extends StatelessWidget implements PreferredSizeWidget {
   final BrandingState brand;
   final VoidCallback onSearch;
   final VoidCallback onNotifications;
+  final VoidCallback? onContact;
   final bool allowBack;
   const HomeBrandHeader({
     super.key,
     required this.brand,
     required this.onSearch,
     required this.onNotifications,
+    this.onContact,
     this.allowBack = false,
   });
   @override
@@ -86,6 +88,14 @@ class HomeBrandHeader extends StatelessWidget implements PreferredSizeWidget {
         constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
         icon: const Icon(Icons.notifications_none_rounded, color: homeNavy),
       ),
+      if (onContact != null)
+        IconButton(
+          key: const ValueKey('header-contact'),
+          tooltip: 'Bize Ulaşın',
+          onPressed: onContact,
+          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+          icon: const Icon(Icons.contact_support_outlined, color: homeNavy),
+        ),
       const SizedBox(width: 4),
     ],
   );
