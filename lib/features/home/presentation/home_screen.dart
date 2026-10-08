@@ -32,6 +32,7 @@ enum HomeAction {
   breaking,
   search,
   notifications,
+  contact,
   submitNews,
   selectCity,
   news,
@@ -336,6 +337,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       HomeAction.breaking => 'Son Dakika',
       HomeAction.search => 'Arama',
       HomeAction.notifications => 'Bildirimler',
+      HomeAction.contact => 'Bize Ulaşın',
       HomeAction.submitNews => 'Haber gönderme',
       HomeAction.selectCity => 'Şehir seçimi',
       HomeAction.news => 'Haber detayı',
@@ -579,6 +581,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     brand: brand,
     onSearch: () => _action(HomeAction.search),
     onNotifications: () => _action(HomeAction.notifications),
+    onContact: () => _action(HomeAction.contact),
   );
 
   Widget _ticker(List<NewsModel> breaking, Color red) => Padding(
