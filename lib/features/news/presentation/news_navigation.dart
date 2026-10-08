@@ -12,6 +12,7 @@ import '../../../data/repositories/taxonomy_repository.dart';
 import '../../home/presentation/home_screen.dart';
 import '../../notifications/presentation/notification_preferences_screen.dart';
 import '../../settings/presentation/app_settings_screen.dart';
+import '../../settings/presentation/contact_screen.dart';
 import 'news_detail_route.dart';
 import 'news_feed_screen.dart';
 import 'news_category_explorer_screen.dart';
@@ -32,6 +33,7 @@ class NewsNavigation {
   static const submit = '/haber-gonder';
   static const notifications = '/bildirimler';
   static const settings = '/tercihler';
+  static const contact = '/iletisim';
 
   static Route<dynamic>? generate(
     RouteSettings settings, {
@@ -58,6 +60,7 @@ class NewsNavigation {
       submit => const NewsSubmitScreen(),
       notifications => const NotificationPreferencesScreen(),
       NewsNavigation.settings => const AppSettingsScreen(),
+      contact => const ContactScreen(),
       '/guncel-haberler' => NewsFeedScreen(
         mode: NewsFeedMode.latest,
         repository: repository,
@@ -102,6 +105,8 @@ class NewsNavigation {
       Navigator.of(context).pushNamed(notifications);
   static void openSettings(BuildContext context) =>
       Navigator.of(context).pushNamed(settings);
+  static void openContact(BuildContext context) =>
+      Navigator.of(context).pushNamed(contact);
 
   /// Kullanıcının alt menü slotuna atadığı hedefi açar.
   static void openDestination(BuildContext context, NavDestination target) {
@@ -165,6 +170,8 @@ class NewsNavigation {
         if (payload is NewsModel) openArticle(context, payload);
       case HomeAction.notifications:
         openNotifications(context);
+      case HomeAction.contact:
+        openContact(context);
       case HomeAction.submitNews:
         openSubmit(context);
       case HomeAction.selectCity:
