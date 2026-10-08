@@ -94,7 +94,7 @@ class AppConfig {
   /// uygulamasında aynı native iletişim ekranında kullanılır.
   static const String publisherName = 'Netvera Teknoloji Yazılım';
   static const String contactEmail = 'iletisim@guncelgundem.tr';
-  static const String contactUrl = '$productionSiteUrl/iletisim';
+  static const String contactUrl = '$productionSiteUrl/iletisim/';
   static const String contactWebsiteUrl = productionSiteUrl;
 
   /// Ayar/bildirim ekranlarının ortak legal bağlantı listesi (başlık + URL).
