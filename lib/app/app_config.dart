@@ -76,7 +76,7 @@ class AppConfig {
 
   /// Uygulama Sürüm Bilgisi
   static const String appVersion = '1.0.0';
-  static const int buildNumber = 3;
+  static const int buildNumber = 4;
 
   /// Üretim legal/privacy linkleri — TEK DOĞRULUK KAYNAĞI.
   ///
