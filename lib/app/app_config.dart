@@ -17,14 +17,13 @@ class AppConfig {
     defaultValue: 'https://guncelgundem.tr/api/mobile/v1',
   );
 
-  /// Debug (geliştirme) base URL. Android emulator varsayılan olarak host
-  /// makineye `10.0.2.2` üzerinden erişir — yerelde `php -S 0.0.0.0:8080 -t public`
-  /// çalışan GüncelGündem backend'ini otomatik hedefler. Fiziksel cihazda veya
-  /// farklı port kullanıldığında --dart-define=DEBUG_API_BASE_URL=http://... ile
-  /// override edilebilir. Release derlemeleri bu değere ASLA bakmaz.
+  /// Debug (geliştirme) base URL. Emülatörde gerçek mobil API'nin davranışını
+  /// test edebilmek için varsayılan olarak üretim API'sini kullanır. Yerel backend
+  /// gerektiğinde --dart-define=DEBUG_API_BASE_URL=http://10.0.2.2:8080/api/mobile/v1
+  /// ile override edilebilir. Release derlemeleri bu değere ASLA bakmaz.
   static const String _debugUrl = String.fromEnvironment(
     'DEBUG_API_BASE_URL',
-    defaultValue: 'http://10.0.2.2:8080/api/mobile/v1',
+    defaultValue: 'https://guncelgundem.tr/api/mobile/v1',
   );
 
   /// Derleme moduna göre varsayılan base URL. Release daima production,
