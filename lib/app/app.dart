@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../data/models/news_model.dart';
+import '../data/models/push_notification_model.dart';
 import '../design/app_theme.dart';
 import 'app_config.dart';
 import '../design/branding_state.dart';
@@ -12,6 +13,7 @@ import '../features/startup/presentation/branded_startup_screen.dart';
 import '../features/news/presentation/news_navigation.dart';
 import '../features/blog/presentation/blog_navigation.dart';
 import '../services/deep_link_service.dart';
+import '../services/firebase_push_coordinator.dart';
 import 'app_startup.dart';
 
 /// GüncelGündem Mobil Uygulama Kök Bileşeni (Technical Foundation)
@@ -29,17 +31,25 @@ class GuncelGundemApp extends StatefulWidget {
   State<GuncelGundemApp> createState() => _GuncelGundemAppState();
 }
 
-class _GuncelGundemAppState extends State<GuncelGundemApp> {
+class _GuncelGundemAppState extends State<GuncelGundemApp>
+    with WidgetsBindingObserver {
   // Deep link ve push intent'leri için ortak navigator anahtarı.
   final GlobalKey<NavigatorState> _navigator = GlobalKey<NavigatorState>();
+  final GlobalKey<ScaffoldMessengerState> _messenger =
+      GlobalKey<ScaffoldMessengerState>();
+  final FirebasePushCoordinator _push = FirebasePushCoordinator.instance;
   late final DeepLinkService _deepLinks =
       widget.deepLinkService ?? DeepLinkService();
   StreamSubscription<DeepLinkIntent>? _linkSubscription;
+  StreamSubscription<PendingNotificationIntent>? _pushSubscription;
+  StreamSubscription<PushNotificationPayload>? _foregroundSubscription;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _bindDeepLinks();
+    _bindPush();
   }
 
   Future<void> _bindDeepLinks() async {
@@ -48,6 +58,51 @@ class _GuncelGundemAppState extends State<GuncelGundemApp> {
     final initial = await _deepLinks.initialize();
     if (initial != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _dispatch(initial));
+    }
+  }
+
+  void _bindPush() {
+    _pushSubscription = _push.onNotificationClicked.listen(_dispatchPush);
+    _foregroundSubscription = _push.onForegroundNotification.listen(
+      _showForegroundNotification,
+    );
+    unawaited(_push.start());
+  }
+
+  void _dispatchPush(PendingNotificationIntent intent) {
+    final slug = intent.slug;
+    final target = DeepLinkService.parse(intent.url) ??
+        (slug != null && slug.isNotEmpty
+            ? DeepLinkIntent(DeepLinkTarget.news, slug: slug)
+            : null);
+    if (target == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _dispatch(target);
+    });
+  }
+
+  void _showForegroundNotification(PushNotificationPayload payload) {
+    final messenger = _messenger.currentState;
+    if (messenger == null) return;
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(
+          payload.body.isEmpty
+              ? payload.title
+              : '${payload.title}\\n${payload.body}',
+        ),
+        action: SnackBarAction(
+          label: 'Aç',
+          onPressed: () => unawaited(_push.openForegroundPayload(payload)),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      unawaited(_push.syncToken());
     }
   }
 
@@ -83,7 +138,10 @@ class _GuncelGundemAppState extends State<GuncelGundemApp> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _linkSubscription?.cancel();
+    _pushSubscription?.cancel();
+    _foregroundSubscription?.cancel();
     super.dispose();
   }
 
@@ -94,6 +152,7 @@ class _GuncelGundemAppState extends State<GuncelGundemApp> {
       builder: (context, _) {
         return MaterialApp(
           navigatorKey: _navigator,
+          scaffoldMessengerKey: _messenger,
           title: BrandingState.instance.siteName,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
@@ -135,6 +194,7 @@ class _TechnicalCoreShellState extends State<TechnicalCoreShell> {
 
   Future<void> _completeOnboarding() async {
     await widget.startupCoordinator.markOnboardingCompleted();
+    unawaited(FirebasePushCoordinator.instance.syncToken());
     if (mounted) setState(() => _onboardingCompleted = true);
   }
 
