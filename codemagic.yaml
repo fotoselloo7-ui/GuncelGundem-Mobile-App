@@ -1,50 +1,34 @@
 workflows:
   ios-testflight:
     name: Güncel Gündem iOS TestFlight
-    max_build_duration: 60
     instance_type: mac_mini_m2
+    max_build_duration: 60
 
     integrations:
-      app_store_connect: "GuncelGundem GitHub CI"
+      app_store_connect: GuncelGundem GitHub CI
 
     environment:
       flutter: 3.47.4
       xcode: latest
       vars:
-        BUNDLE_ID: "tr.guncelgundem.app"
+        BUNDLE_ID: tr.guncelgundem.app
 
     scripts:
-      - name: Enable Flutter Swift Package Manager
-        script: |
-          flutter config --enable-swift-package-manager
-
       - name: Get Flutter packages
         script: |
           flutter pub get
 
-      - name: Initialize signing keychain
+      - name: Set up iOS code signing
         script: |
+          set -e
           keychain initialize
-
-      - name: Fetch or create Apple signing files
-        script: |
-          set -euo pipefail
-          CERT_KEY="$CM_BUILD_DIR/ios_distribution_private_key"
-          openssl genrsa -out "$CERT_KEY" 2048
-          chmod 600 "$CERT_KEY"
-
+          openssl genrsa -out "$CM_BUILD_DIR/ios_distribution_private_key" 2048
           app-store-connect fetch-signing-files "$BUNDLE_ID" \
             --type IOS_APP_STORE \
             --create \
-            --certificate-key "@file:$CERT_KEY"
-
-      - name: Add signing certificate to keychain
-        script: |
+            --certificate-key "@file:$CM_BUILD_DIR/ios_distribution_private_key"
           keychain add-certificates
-
-      - name: Apply iOS provisioning profile
-        script: |
-          xcode-project use-profiles --project ios/Runner.xcodeproj
+          xcode-project use-profiles
 
       - name: Build signed IPA
         script: |
@@ -55,11 +39,8 @@ workflows:
 
     artifacts:
       - build/ios/ipa/*.ipa
-      - build/ios/archive/*.xcarchive
       - /tmp/xcodebuild_logs/*.log
 
     publishing:
       app_store_connect:
         auth: integration
-        submit_to_testflight: false
-        submit_to_app_store: false
