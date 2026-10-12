@@ -1,3 +1,5 @@
+import '../../app/app_config.dart';
+
 /// Mobil Reklam Modeli
 ///
 /// FAZ 5 / MOBİL REKLAM SÖZLEŞMESİ VE VERİ MODELİ
@@ -73,8 +75,16 @@ class MobileAdModel {
     'priority': priority,
   };
 
-  /// Reklamın hedeflediği görsel URL'i (varsa mobil versiyonu öncelikler)
-  String? get effectiveImageUrl => mobileImageUrl ?? imageUrl;
+  /// Reklamın hedeflediği görsel URL'i (varsa mobil versiyonu öncelikler).
+  /// Backend site-içi /uploads/... yolu döndürürse mobil istemci bunu mutlak
+  /// production URL'e çevirir; böylece CachedNetworkImage göreli URL'de düşmez.
+  String? get effectiveImageUrl {
+    final raw = (mobileImageUrl ?? imageUrl)?.trim();
+    if (raw == null || raw.isEmpty) return null;
+    if (raw.startsWith('http://') || raw.startsWith('https://')) return raw;
+    if (raw.startsWith('//')) return 'https:$raw';
+    return '${AppConfig.productionSiteUrl}/${raw.replaceFirst(RegExp(r'^/+'), '')}';
+  }
 
   /// Reklam sponsorlu bir haber mi?
   bool get isSponsoredNews =>
