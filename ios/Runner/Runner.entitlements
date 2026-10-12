@@ -9,6 +9,10 @@
          dosyasının "paths" alanıyla sınırlanır:
          https://guncelgundem.tr/.well-known/apple-app-site-association
          (Bkz. IOS-RELEASE-HANDOFF.md — AASA Apple Team ID gerektirir.) -->
+    <!-- Push capability: Debug=development, Release/Profile=production.
+         Apple Developer App ID/provisioning must also enable Push Notifications. -->
+    <key>aps-environment</key>
+    <string>$(APS_ENVIRONMENT)</string>
     <key>com.apple.developer.associated-domains</key>
     <array>
         <string>applinks:guncelgundem.tr</string>
