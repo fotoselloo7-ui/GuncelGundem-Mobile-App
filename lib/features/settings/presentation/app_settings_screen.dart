@@ -186,7 +186,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                           subtitle: _prefs.notificationsEnabled
                               ? 'Açık · Son Dakika ${_prefs.breakingNews ? 'açık' : 'kapalı'}'
                               : 'Kapalı',
-                          onTap: () => _open('/bildirimler'),
+                          onTap: () => _open('/bildirim-ayarlari'),
                         ),
                         const Divider(height: 1, color: homeLine),
                         _NavTile(
@@ -226,6 +226,14 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                     padding: EdgeInsets.zero,
                     child: Column(
                       children: [
+                        _NavTile(
+                          key: const ValueKey('settings-partnership'),
+                          icon: Icons.campaign_outlined,
+                          title: 'Özel Haber & İş Birliği',
+                          subtitle: 'Erişim istatistikleri ve iletişim kanalları',
+                          onTap: () => _open('/ozel-haber-isbirligi'),
+                        ),
+                        const Divider(height: 1, color: homeLine),
                         _NavTile(
                           key: const ValueKey('settings-contact'),
                           icon: Icons.contact_mail_outlined,
