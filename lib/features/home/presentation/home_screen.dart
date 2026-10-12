@@ -493,6 +493,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               _categoryShortcuts(home),
+                              if (_ad != null) _adSlot(_ad!),
                               if (_loading && _data.home == null)
                                 const Padding(
                                   padding: EdgeInsets.all(24),
@@ -525,7 +526,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                         )
                                       : _miniNews(_local.take(3).toList()),
                                 ),
-                              if (_ad != null) _adSlot(_ad!),
                               if (home.liveModules != null)
                                 HomeMarketSection(
                                   market: home.liveModules!.market,
