@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
@@ -10,10 +11,10 @@ import '../data/repositories/device_repository.dart';
 import 'notification_permission_service.dart';
 import 'push_service.dart';
 
-/// Android Firebase Messaging köprüsü.
+/// Android/iOS Firebase Messaging köprüsü.
 ///
 /// Mevcut onboarding bildirim izni ve cihaz tercihlerini kullanır.
-/// iOS, GoogleService-Info.plist/APNs yapılandırılana kadar etkilenmez.
+/// iOS plist/APNs yapılandırılana kadar güvenle pasif kalır.
 class FirebasePushCoordinator {
   FirebasePushCoordinator._();
 
@@ -39,7 +40,11 @@ class FirebasePushCoordinator {
       _foreground.stream;
 
   Future<void> start() async {
-    if (!Platform.isAndroid || _started) return;
+    if (!(Platform.isAndroid || Platform.isIOS) ||
+        _started ||
+        Firebase.apps.isEmpty) {
+      return;
+    }
     _started = true;
     try {
       await _push.initialize(isNativeFirebaseConfigured: true);
@@ -70,9 +75,15 @@ class FirebasePushCoordinator {
   /// Uygulama açılışında, resume'da ve onboarding sonunda çağrılır.
   /// Bildirim izni olmayan kullanıcıdan otomatik izin istemez.
   Future<void> syncToken() async {
-    if (!_started || _syncing || !Platform.isAndroid) return;
+    if (!_started || _syncing ||
+        !(Platform.isAndroid || Platform.isIOS)) return;
     try {
       if (!await _isNotificationsEnabled()) return;
+      // Apple FCM token isteğinden önce APNs tokenının hazır olması gerekir.
+      if (Platform.isIOS &&
+          await FirebaseMessaging.instance.getAPNSToken() == null) {
+        return;
+      }
       final token = await FirebaseMessaging.instance.getToken();
       if (token != null && token.isNotEmpty) {
         await _sendToken(token);
