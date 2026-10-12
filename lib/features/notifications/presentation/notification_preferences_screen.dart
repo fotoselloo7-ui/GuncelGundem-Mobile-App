@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,6 +11,7 @@ import '../../../data/repositories/device_repository.dart';
 import '../../../data/repositories/taxonomy_repository.dart';
 import '../../../design/branding_state.dart';
 import '../../../services/notification_permission_service.dart';
+import '../../../services/firebase_push_coordinator.dart';
 import '../../home/presentation/home_city.dart';
 import '../../home/presentation/home_widgets.dart';
 import '../../news/presentation/news_navigation.dart';
@@ -116,6 +119,7 @@ class _NotificationPreferencesScreenState
       if (mounted) setState(() => _permissionStatus = status);
     }
     await _apply(_prefs.copyWith(notificationsEnabled: value));
+    if (value) unawaited(FirebasePushCoordinator.instance.syncToken());
   }
 
   Future<void> _refreshPermission() async {
@@ -126,6 +130,9 @@ class _NotificationPreferencesScreenState
   Future<void> _requestPermission() async {
     final status = await _permission.request();
     if (mounted) setState(() => _permissionStatus = status);
+    if (status == NotificationPermissionStatus.granted) {
+      unawaited(FirebasePushCoordinator.instance.syncToken());
+    }
   }
 
   Future<void> _openSystemSettings() async {
