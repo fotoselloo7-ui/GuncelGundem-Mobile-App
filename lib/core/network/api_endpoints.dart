@@ -51,6 +51,9 @@ class ApiEndpoints {
   /// GET /api/mobile/v1/ads
   static const String ads = '/ads';
 
+  /// GET /api/mobile/v1/partnership
+  static const String partnership = '/partnership';
+
   /// POST /api/mobile/v1/analytics/events
   static const String analyticsEvents = '/analytics/events';
 
