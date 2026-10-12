@@ -47,7 +47,7 @@ android/app/upload-keystore.properties
 
 # iOS signing credentials — ASLA kommitlenmez
 ios/Runner/GoogleService-Info.plist
-android/app/google-services.json
+# Android Firebase client config is intentionally versioned; never commit service-account credentials.
 
 # Android Studio will place build artifacts here
 /android/app/debug
