@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../data/models/news_model.dart';
+import '../data/models/push_notification_model.dart';
 import '../design/app_theme.dart';
 import 'app_config.dart';
 import '../design/branding_state.dart';
