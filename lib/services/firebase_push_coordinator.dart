@@ -29,9 +29,6 @@ class FirebasePushCoordinator {
   final StreamController<PushNotificationPayload> _foreground =
       StreamController<PushNotificationPayload>.broadcast();
 
-  StreamSubscription<String>? _tokenChanges;
-  StreamSubscription<RemoteMessage>? _openedMessages;
-  StreamSubscription<RemoteMessage>? _foregroundMessages;
   bool _started = false;
   bool _syncing = false;
 
@@ -52,13 +49,13 @@ class FirebasePushCoordinator {
       await _inbox.initialize();
       await _push.initialize(isNativeFirebaseConfigured: true);
 
-      _tokenChanges = FirebaseMessaging.instance.onTokenRefresh.listen(
+      FirebaseMessaging.instance.onTokenRefresh.listen(
         (token) => unawaited(_sendToken(token)),
       );
-      _openedMessages = FirebaseMessaging.onMessageOpenedApp.listen(
+      FirebaseMessaging.onMessageOpenedApp.listen(
         (message) => unawaited(_openNotification(message)),
       );
-      _foregroundMessages = FirebaseMessaging.onMessage.listen((message) {
+      FirebaseMessaging.onMessage.listen((message) {
         final payload = _parsePayload(message);
         unawaited(_inbox.add(payload));
         _foreground.add(payload);
@@ -80,8 +77,9 @@ class FirebasePushCoordinator {
   /// Uygulama açılışında, resume'da ve onboarding sonunda çağrılır.
   /// Bildirim izni olmayan kullanıcıdan otomatik izin istemez.
   Future<void> syncToken() async {
-    if (!_started || _syncing ||
-        !(Platform.isAndroid || Platform.isIOS)) return;
+    if (!_started || _syncing || !(Platform.isAndroid || Platform.isIOS)) {
+      return;
+    }
     try {
       if (!await _isNotificationsEnabled()) return;
       // Apple FCM token isteğinden önce APNs tokenının hazır olması gerekir.
