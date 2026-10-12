@@ -77,65 +77,218 @@ class HomeBrandHeader extends StatelessWidget implements PreferredSizeWidget {
       ),
     ),
     actions: [
-      IconButton(
-        tooltip: 'Ara',
-        onPressed: onSearch,
-        constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-        icon: const Icon(Icons.search_rounded, color: homeNavy),
-      ),
-      AnimatedBuilder(
-        animation: NotificationInboxService.instance,
-        builder: (context, _) {
-          final count = NotificationInboxService.instance.unreadCount;
-          return IconButton(
-            tooltip: 'Bildirimler',
+      if (onContact == null) ...[
+        IconButton(
+          tooltip: 'Ara',
+          onPressed: onSearch,
+          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+          icon: const Icon(Icons.search_rounded, color: homeNavy),
+        ),
+        AnimatedBuilder(
+          animation: NotificationInboxService.instance,
+          builder: (context, _) => _HeaderNotificationButton(
+            brand: brand,
             onPressed: onNotifications,
-            constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-            icon: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.notifications_none_rounded, color: homeNavy),
-                if (count > 0)
-                  Positioned(
-                    right: -7,
-                    top: -7,
-                    child: Container(
-                      constraints: const BoxConstraints(minWidth: 17),
-                      height: 17,
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: BoxDecoration(
-                        color: brand.primaryColor,
-                        borderRadius: BorderRadius.circular(9),
-                        border: Border.all(color: Colors.white, width: 1.5),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        count > 9 ? '9+' : '$count',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 9,
-                          height: 1,
-                          fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(width: 4),
+      ] else
+        SizedBox(
+          width: 150,
+          height: 64,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(
+                left: 1,
+                right: 3,
+                top: 2,
+                child: Semantics(
+                  button: true,
+                  label: 'Özel haberini yayınlat',
+                  child: InkWell(
+                    key: const ValueKey('header-special-news-bubble'),
+                    onTap: onContact,
+                    borderRadius: BorderRadius.circular(999),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          height: 21,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: homeNavy,
+                            borderRadius: BorderRadius.circular(999),
+                            boxShadow: [
+                              BoxShadow(
+                                color: homeNavy.withValues(alpha: 0.12),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.campaign_rounded,
+                                size: 11,
+                                color: brand.primaryColor,
+                              ),
+                              const SizedBox(width: 4),
+                              const Flexible(
+                                child: Text(
+                                  'Özel haberini yayınlat',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Poppins',
+                                    fontSize: 9.2,
+                                    height: 1,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          right: 18,
+                          bottom: -3,
+                          child: Transform.rotate(
+                            angle: 0.785398,
+                            child: Container(
+                              width: 7,
+                              height: 7,
+                              color: homeNavy,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      width: 48,
+                      height: 42,
+                      child: IconButton(
+                        tooltip: 'Ara',
+                        onPressed: onSearch,
+                        padding: EdgeInsets.zero,
+                        icon: const Icon(
+                          Icons.search_rounded,
+                          color: homeNavy,
+                          size: 23,
                         ),
                       ),
                     ),
-                  ),
-              ],
-            ),
-          );
-        },
-      ),
-      if (onContact != null)
-        IconButton(
-          key: const ValueKey('header-contact'),
-          tooltip: 'Özel Haber Yayınlat',
-          onPressed: onContact,
-          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-          icon: const Icon(Icons.campaign_outlined, color: homeNavy),
+                    AnimatedBuilder(
+                      animation: NotificationInboxService.instance,
+                      builder: (context, _) => SizedBox(
+                        width: 48,
+                        height: 42,
+                        child: _HeaderNotificationButton(
+                          brand: brand,
+                          onPressed: onNotifications,
+                          compact: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 48,
+                      height: 42,
+                      child: IconButton(
+                        key: const ValueKey('header-contact'),
+                        tooltip: 'Özel Haber Yayınlat',
+                        onPressed: onContact,
+                        padding: EdgeInsets.zero,
+                        icon: const Icon(
+                          Icons.campaign_outlined,
+                          color: homeNavy,
+                          size: 22,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       const SizedBox(width: 4),
     ],
   );
+}
+
+class _HeaderNotificationButton extends StatelessWidget {
+  final BrandingState brand;
+  final VoidCallback onPressed;
+  final bool compact;
+
+  const _HeaderNotificationButton({
+    required this.brand,
+    required this.onPressed,
+    this.compact = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final count = NotificationInboxService.instance.unreadCount;
+    return IconButton(
+      tooltip: 'Bildirimler',
+      onPressed: onPressed,
+      padding: compact ? EdgeInsets.zero : null,
+      constraints: compact
+          ? const BoxConstraints(minWidth: 42, minHeight: 42)
+          : const BoxConstraints(minWidth: 48, minHeight: 48),
+      icon: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Icon(
+            Icons.notifications_none_rounded,
+            color: homeNavy,
+            size: compact ? 22 : 24,
+          ),
+          if (count > 0)
+            Positioned(
+              right: -7,
+              top: -7,
+              child: Container(
+                constraints: const BoxConstraints(minWidth: 17),
+                height: 17,
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  color: brand.primaryColor,
+                  borderRadius: BorderRadius.circular(9),
+                  border: Border.all(color: Colors.white, width: 1.5),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  count > 9 ? '9+' : '$count',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 9,
+                    height: 1,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }
 
 String homeDate(DateTime? value) {
