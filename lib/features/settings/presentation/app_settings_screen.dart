@@ -194,7 +194,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                           icon: Icons.nightlight_round,
                           title: 'Sessiz Saatler',
                           subtitle: _quietLabel,
-                          onTap: () => _open('/bildirimler'),
+                          onTap: () => _open('/bildirim-ayarlari'),
                         ),
                       ],
                     ),
