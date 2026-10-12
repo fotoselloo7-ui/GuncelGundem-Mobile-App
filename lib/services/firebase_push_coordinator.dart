@@ -9,6 +9,7 @@ import '../app/app_config.dart';
 import '../data/models/push_notification_model.dart';
 import '../data/repositories/device_repository.dart';
 import 'notification_permission_service.dart';
+import 'notification_inbox_service.dart';
 import 'push_service.dart';
 
 /// Android/iOS Firebase Messaging köprüsü.
@@ -24,6 +25,7 @@ class FirebasePushCoordinator {
   final NotificationPermissionService _permissions =
       NotificationPermissionService();
   final PushService _push = PushService();
+  final NotificationInboxService _inbox = NotificationInboxService.instance;
   final StreamController<PushNotificationPayload> _foreground =
       StreamController<PushNotificationPayload>.broadcast();
 
@@ -47,6 +49,7 @@ class FirebasePushCoordinator {
     }
     _started = true;
     try {
+      await _inbox.initialize();
       await _push.initialize(isNativeFirebaseConfigured: true);
 
       _tokenChanges = FirebaseMessaging.instance.onTokenRefresh.listen(
@@ -56,7 +59,9 @@ class FirebasePushCoordinator {
         (message) => unawaited(_openNotification(message)),
       );
       _foregroundMessages = FirebaseMessaging.onMessage.listen((message) {
-        _foreground.add(_parsePayload(message));
+        final payload = _parsePayload(message);
+        unawaited(_inbox.add(payload));
+        _foreground.add(payload);
       });
 
       // Kapalı uygulama bir bildirime dokunularak açılmış olabilir.
@@ -136,7 +141,9 @@ class FirebasePushCoordinator {
 
   Future<void> _openNotification(RemoteMessage message) async {
     try {
-      await _push.handleNotificationOpen(_parsePayload(message));
+      final payload = _parsePayload(message);
+      await _inbox.add(payload, markRead: true);
+      await _push.handleNotificationOpen(payload);
     } catch (error) {
       if (kDebugMode) debugPrint('[FCM] Notification open error: $error');
     }
