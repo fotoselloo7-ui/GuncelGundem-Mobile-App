@@ -8,11 +8,10 @@ workflows:
       app_store_connect: "GuncelGundem GitHub CI"
 
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: tr.guncelgundem.app
       flutter: 3.47.4
       xcode: latest
+      vars:
+        BUNDLE_ID: "tr.guncelgundem.app"
 
     scripts:
       - name: Enable Flutter Swift Package Manager
@@ -23,7 +22,27 @@ workflows:
         script: |
           flutter pub get
 
-      - name: Apply iOS signing profiles
+      - name: Initialize signing keychain
+        script: |
+          keychain initialize
+
+      - name: Fetch or create Apple signing files
+        script: |
+          set -euo pipefail
+          CERT_KEY="$CM_BUILD_DIR/ios_distribution_private_key"
+          openssl genrsa -out "$CERT_KEY" 2048
+          chmod 600 "$CERT_KEY"
+
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create \
+            --certificate-key "@file:$CERT_KEY"
+
+      - name: Add signing certificate to keychain
+        script: |
+          keychain add-certificates
+
+      - name: Apply iOS provisioning profile
         script: |
           xcode-project use-profiles --project ios/Runner.xcodeproj
 
