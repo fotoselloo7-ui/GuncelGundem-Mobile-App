@@ -76,7 +76,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
-  static const _placement = 'home_after_hero';
+  static const _placement = 'home_top';
   late final HomeDataState _data;
   late final HomeRepository _home;
   late final DeviceRepository _device;
@@ -97,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final _viewportKey = GlobalKey();
   HomeCity? _city;
   List<NewsModel> _local = const [];
+  List<NewsModel> _breaking = const [];
   List<NewsModel> _video = const [];
   MobileAdModel? _ad;
   bool _loading = false;
@@ -131,6 +132,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final slots = widget.initialSlots;
     if (slots != null) {
       _local = slots.local;
+      _breaking = slots.home.breaking;
       _video = slots.video;
       _ad = slots.ads.isEmpty ? null : slots.ads.first;
       if (slots.city != null) {
@@ -154,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _adTimer?.cancel();
     // Only active-screen ads revalidate; no new cache or background home polling.
     _adTimer = Timer.periodic(
-      const Duration(seconds: 60),
+      const Duration(seconds: 15),
       (_) => unawaited(_loadAd()),
     );
   }
@@ -162,8 +164,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void _startTickerTimer() {
     _tickerTimer?.cancel();
     _tickerTimer = Timer.periodic(const Duration(seconds: 5), (_) {
-      final count =
-          (_data.home ?? widget.initialSlots?.home)?.breaking.length ?? 0;
+      final count = _breaking.isNotEmpty
+          ? _breaking.length
+          : ((_data.home ?? widget.initialSlots?.home)?.breaking.length ?? 0);
       if (!mounted || count < 2 || !_tickerPager.hasClients) return;
       if (ModalRoute.of(context)?.isCurrent == false ||
           _tickerPager.position.isScrollingNotifier.value) {
@@ -203,8 +206,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Future<void> _refresh() {
     if (_refreshing != null) return _refreshing!;
-    final future = Future.wait([_loadHome(), _loadCityAndAd()])
-        .then<void>((_) {});
+    final future = Future.wait([
+      _loadHome(),
+      _loadCityAndAd(),
+      _loadBreaking(),
+    ]).then<void>((_) {});
     _refreshing = future;
     return future.whenComplete(() => _refreshing = null);
   }
@@ -226,10 +232,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  Future<void> _loadBreaking() async {
+    try {
+      final items = await _news.getBreaking(limit: 5);
+      if (mounted && items.isNotEmpty) {
+        setState(() => _breaking = items);
+      }
+    } catch (_) {
+      // /home içindeki son-dakika verisi yedek olarak ekranda kalır.
+    }
+  }
+
   Future<void> _loadCityAndAd() async {
     _adGeneration++;
-    if (mounted) setState(() => _ad = null);
-    // Never show an untargeted ad while a saved location is being resolved.
+    // Mevcut reklamı istek sürerken kaldırma; yeni yanıt atomik olarak değiştirir.
     await _loadCity();
     if (mounted) await _loadAd();
   }
@@ -270,18 +286,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
       if (city != null) {
         try {
-          final result = await _news.getLocationNews(
+          var result = await _news.getLocationNews(
             city.provinceSlug,
             district: city.districtSlug,
             limit: 3,
           );
+          if (result.news.isEmpty && city.districtSlug != null) {
+            result = await _news.getLocationNews(
+              city.provinceSlug,
+              limit: 3,
+            );
+          }
           if (mounted && _city?.location.id == city.location.id) {
             setState(() => _local = result.news);
           }
         } catch (_) {
           if (mounted) {
             setState(() {
-              _local = const [];
+              // Geçici ağ/API hatasında ekrandaki son başarılı yerel haberleri koru.
               _localFailed = true;
             });
           }
@@ -295,13 +317,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Future<void> _loadAd() async {
     if (!mounted || !_active) return;
     final generation = ++_adGeneration;
-    if (mounted) setState(() => _ad = null);
-    final ad = await _ads.getTopAd(
-      placement: _placement,
-      locationId: _city?.location.id,
-    );
-    if (!mounted || !_active || generation != _adGeneration) return;
-    setState(() => _ad = ad);
+    try {
+      final response = await _ads.getAds(
+        placement: _placement,
+        locationId: _city?.location.id,
+      );
+      if (!mounted || !_active || generation != _adGeneration) return;
+      if (!response.success) return;
+      final items = response.data ?? const <MobileAdModel>[];
+      setState(() => _ad = items.isEmpty ? null : items.first);
+    } catch (_) {
+      // Geçici bağlantı hatasında mevcut reklam ekranda kalır.
+    }
   }
 
   void _trackVisibleAd() {
@@ -456,7 +483,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        _ticker(home.breaking, brand.primaryColor),
+                        _ticker(
+                          _breaking.isNotEmpty ? _breaking : home.breaking,
+                          brand.primaryColor,
+                        ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
                           child: Column(
@@ -541,7 +571,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                       ? const HomeMessage(
                                           'Henüz yayınlanmış haber bulunmuyor.',
                                         )
-                                      : _newsGrid(section.news.take(5)),
+                                      : _newsGrid(section.news.take(6)),
                                 ),
                               _videos(home),
                               if (home.featured.isNotEmpty)
@@ -1168,7 +1198,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               children: [
                 if ((ad.effectiveImageUrl ?? '').isNotEmpty)
                   AspectRatio(
-                    aspectRatio: 4,
+                    aspectRatio: 3,
                     child: HomeCover(
                       url: ad.effectiveImageUrl,
                       width: double.infinity,
