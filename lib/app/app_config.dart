@@ -76,7 +76,7 @@ class AppConfig {
 
   /// Uygulama Sürüm Bilgisi
   static const String appVersion = '1.0.0';
-  static const int buildNumber = 4;
+  static const int buildNumber = 5;
 
   /// Üretim legal/privacy linkleri — TEK DOĞRULUK KAYNAĞI.
   ///
@@ -112,8 +112,8 @@ class AppConfig {
   /// Remote config döndüğünde ezilir.
   static AppConfigModel bundledDefaultConfig() => const AppConfigModel(
     apiVersion: 'v1',
-    siteName: 'GüncelGündem',
-    shortName: 'GüncelGündem',
+    siteName: 'Güncel Gündem',
+    shortName: 'Güncel Gündem',
     tagline: "Türkiye'nin Güncel Gündem Adresi",
     siteUrl: productionSiteUrl,
     maintenanceMode: false,
