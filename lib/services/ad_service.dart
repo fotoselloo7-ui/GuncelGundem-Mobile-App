@@ -53,19 +53,15 @@ class AdService {
     String? categoryId,
     String? locationId,
   }) async {
-    try {
-      final response = await getAds(
-        placement: placement,
-        categoryId: categoryId,
-        locationId: locationId,
-      );
-      if (response.success &&
-          response.data != null &&
-          response.data!.isNotEmpty) {
-        return response.data!.first;
-      }
-    } catch (_) {
-      // Ağ hatalarında sessizce null döner
+    final response = await getAds(
+      placement: placement,
+      categoryId: categoryId,
+      locationId: locationId,
+    );
+    if (response.success &&
+        response.data != null &&
+        response.data!.isNotEmpty) {
+      return response.data!.first;
     }
     return null;
   }
