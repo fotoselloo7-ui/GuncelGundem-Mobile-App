@@ -56,7 +56,7 @@ const ad = MobileAdModel(
   advertiserName: 'Test Sponsor',
   campaignName: 'Aktif kampanya',
   type: 'external_link',
-  placementIds: ['home_after_hero'],
+  placementIds: ['home_top'],
   title: 'Sunucudan gelen reklam',
   targetUrl: 'https://example.com',
 );
@@ -136,6 +136,9 @@ class FakeNews extends NewsRepository {
     if (fail) throw StateError('offline');
     return const PaginatedNewsResult(news: [item]);
   }
+
+  @override
+  Future<List<NewsModel>> getBreaking({int limit = 10}) async => const [item];
 }
 
 class FakeAds extends AdService {
@@ -296,10 +299,10 @@ void main() {
     );
     final selectors = [
       find.text('ϟ SON DAKİKA'),
+      find.text('REKLAM'),
       find.byKey(const ValueKey('home-hero')),
       find.text('Şehrimde Neler Var?'),
       find.text('Antalya’den Son Haberler'),
-      find.text('REKLAM'),
       find.byKey(const ValueKey('home-info-corner')),
       // Mevcut final sırada Güncel bölümü Video Haberler'den ÖNCE gelir.
       find.byKey(const ValueKey('home-current')),
@@ -433,14 +436,14 @@ void main() {
       expect(find.text('Alanya’den Son Haberler'), findsOneWidget);
       expect(news.province, 'antalya');
       expect(news.districtUsed, 'alanya');
-      expect(ads.placements.toSet(), {'home_after_hero'});
+      expect(ads.placements.toSet(), {'home_top'});
       expect(ads.locations.last, '07-alanya');
       expect(find.text(ad.title), findsOneWidget);
       await tester.ensureVisible(find.text(ad.title));
       await tester.pumpAndSettle();
-      expect(analytics.impressions, {'campaign-1:home_after_hero'});
+      expect(analytics.impressions, {'campaign-1:home_top'});
       ads.active = null;
-      await tester.pump(const Duration(seconds: 61));
+      await tester.pump(const Duration(seconds: 16));
       await tester.pumpAndSettle();
       expect(find.text(ad.title), findsNothing);
       expect(find.text('REKLAM'), findsNothing);
