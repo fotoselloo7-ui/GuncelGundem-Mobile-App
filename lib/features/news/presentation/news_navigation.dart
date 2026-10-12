@@ -10,9 +10,11 @@ import '../../blog/presentation/blog_navigation.dart';
 import '../../../data/repositories/news_repository.dart';
 import '../../../data/repositories/taxonomy_repository.dart';
 import '../../home/presentation/home_screen.dart';
+import '../../notifications/presentation/notification_center_screen.dart';
 import '../../notifications/presentation/notification_preferences_screen.dart';
 import '../../settings/presentation/app_settings_screen.dart';
 import '../../settings/presentation/contact_screen.dart';
+import '../../settings/presentation/partnership_screen.dart';
 import 'news_detail_route.dart';
 import 'news_feed_screen.dart';
 import 'news_category_explorer_screen.dart';
@@ -32,6 +34,8 @@ class NewsNavigation {
   static const video = '/videolar';
   static const submit = '/haber-gonder';
   static const notifications = '/bildirimler';
+  static const notificationSettings = '/bildirim-ayarlari';
+  static const partnership = '/ozel-haber-isbirligi';
   static const settings = '/tercihler';
   static const contact = '/iletisim';
 
@@ -60,7 +64,9 @@ class NewsNavigation {
       city => const CityScreen(),
       video => const VideoScreen(),
       submit => const NewsSubmitScreen(),
-      notifications => const NotificationPreferencesScreen(),
+      notifications => const NotificationCenterScreen(),
+      notificationSettings => const NotificationPreferencesScreen(),
+      partnership => const PartnershipScreen(),
       NewsNavigation.settings => const AppSettingsScreen(),
       contact => const ContactScreen(),
       '/guncel-haberler' => NewsFeedScreen(
@@ -113,6 +119,10 @@ class NewsNavigation {
       Navigator.of(context).pushNamed(submit);
   static void openNotifications(BuildContext context) =>
       Navigator.of(context).pushNamed(notifications);
+  static void openNotificationSettings(BuildContext context) =>
+      Navigator.of(context).pushNamed(notificationSettings);
+  static void openPartnership(BuildContext context) =>
+      Navigator.of(context).pushNamed(partnership);
   static void openSettings(BuildContext context) =>
       Navigator.of(context).pushNamed(settings);
   static void openContact(BuildContext context) =>
@@ -181,7 +191,7 @@ class NewsNavigation {
       case HomeAction.notifications:
         openNotifications(context);
       case HomeAction.contact:
-        openContact(context);
+        openPartnership(context);
       case HomeAction.submitNews:
         openSubmit(context);
       case HomeAction.selectCity:
