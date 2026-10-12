@@ -234,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Future<void> _loadBreaking() async {
     try {
-      final items = await _news.getBreaking(limit: 5);
+      final items = await _news.getBreaking(limit: 6);
       if (mounted && items.isNotEmpty) {
         setState(() => _breaking = items);
       }
@@ -289,12 +289,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           var result = await _news.getLocationNews(
             city.provinceSlug,
             district: city.districtSlug,
-            limit: 3,
+            limit: 6,
           );
           if (result.news.isEmpty && city.districtSlug != null) {
             result = await _news.getLocationNews(
               city.provinceSlug,
-              limit: 3,
+              limit: 6,
             );
           }
           if (mounted && _city?.location.id == city.location.id) {
@@ -448,12 +448,54 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  bool _isBreakingCategory(CategoryModel category) {
+    final slug = category.slug.trim().toLowerCase();
+    final name = category.name.trim().toLowerCase();
+    return slug == 'son-dakika' || name == 'son dakika';
+  }
+
+  bool _isLocalCategory(CategoryModel category) {
+    final slug = category.slug.trim().toLowerCase();
+    final name = category.name.trim().toLowerCase();
+    return slug == 'yerel-haberler' ||
+        slug == 'yerel' ||
+        name == 'yerel haberler';
+  }
+
+  bool _isSpecialHomeSection(HomeCategorySectionModel section) =>
+      _isVideo(section) ||
+      _isBreakingCategory(section.category) ||
+      _isLocalCategory(section.category);
+
+  List<NewsModel> _breakingFeed(HomeModel home) {
+    if (_breaking.isNotEmpty) return _breaking;
+    if (home.breaking.isNotEmpty) return home.breaking;
+    for (final section in home.categorySections) {
+      if (_isBreakingCategory(section.category) && section.news.isNotEmpty) {
+        return section.news;
+      }
+    }
+    return home.latest.take(6).toList();
+  }
+
+  List<NewsModel> _localFeed(HomeModel home) {
+    if (_local.isNotEmpty) return _local;
+    for (final section in home.categorySections) {
+      if (_isLocalCategory(section.category) && section.news.isNotEmpty) {
+        return section.news;
+      }
+    }
+    return const [];
+  }
+
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
     animation: Listenable.merge([_data, BrandingState.instance]),
     builder: (context, _) {
       final brand = BrandingState.instance;
       final home = _data.home ?? widget.initialSlots?.home ?? const HomeModel();
+      final breakingFeed = _breakingFeed(home);
+      final localFeed = _localFeed(home);
       final theme = homeTheme(brand);
       WidgetsBinding.instance.addPostFrameCallback((_) => _trackVisibleAd());
       return Theme(
@@ -481,10 +523,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        _ticker(
-                          _breaking.isNotEmpty ? _breaking : home.breaking,
-                          brand.primaryColor,
-                        ),
+                        _ticker(breakingFeed, brand.primaryColor),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
                           child: Column(
@@ -514,15 +553,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               if (_city != null)
                                 HomeSection(
                                   key: _localKey,
-                                  title:
-                                      '${_city!.location.name}’den Son Haberler',
-                                  child: _local.isEmpty
+                                  title: 'Yerel Haberler',
+                                  actionLabel: 'Tümünü Gör',
+                                  onAction: _openCity,
+                                  child: localFeed.isEmpty
                                       ? HomeMessage(
                                           _localFailed
                                               ? 'Yerel haberlere şu anda ulaşılamıyor.'
                                               : 'Henüz yerel haber bulunmuyor.',
                                         )
-                                      : _miniNews(_local.take(3).toList()),
+                                      : _newsGrid(localFeed.take(6)),
                                 ),
                               if (home.liveModules != null)
                                 HomeMarketSection(
@@ -552,7 +592,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               // bölümünde (_videos) sunulur; burada tekrar
                               // çizilirse aynı içerik iki kez görünür.
                               for (final section in home.categorySections.where(
-                                (section) => !_isVideo(section),
+                                (section) => !_isSpecialHomeSection(section),
                               ))
                                 HomeSection(
                                   key: ValueKey(
@@ -746,11 +786,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 borderRadius: BorderRadius.circular(12),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () => category == null
-                      ? Navigator.of(context).pushNamed('/tum-kategoriler')
-                      : Navigator.of(
-                          context,
-                        ).pushNamed('/haber-kategorileri', arguments: category),
+                  onTap: () {
+                    if (category == null) {
+                      Navigator.of(context).pushNamed('/tum-kategoriler');
+                      return;
+                    }
+                    if (_isBreakingCategory(category)) {
+                      _action(HomeAction.breaking);
+                      return;
+                    }
+                    if (_isLocalCategory(category)) {
+                      _openCity();
+                      return;
+                    }
+                    Navigator.of(
+                      context,
+                    ).pushNamed('/haber-kategorileri', arguments: category);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Column(
