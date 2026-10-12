@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../app/app_config.dart';
 import '../../../data/models/news_model.dart';
 import '../../../data/models/news_detail_model.dart';
 import '../../../data/repositories/news_repository.dart';
@@ -153,10 +156,24 @@ class _NewsDetailRouteState extends State<NewsDetailRoute> {
         ),
       ),
       const SizedBox(height: 10),
-      Text(
-        newsDateTime(detail.publishedAt),
-        style: const TextStyle(fontSize: 12, color: homeMuted),
+      Row(
+        children: [
+          Expanded(
+            child: Text(
+              newsDateTime(detail.publishedAt),
+              style: const TextStyle(fontSize: 12, color: homeMuted),
+            ),
+          ),
+          const Icon(Icons.visibility_outlined, size: 16, color: homeMuted),
+          const SizedBox(width: 5),
+          Text(
+            '${_formatCount(detail.viewCount)} okunma',
+            style: const TextStyle(fontSize: 12, color: homeMuted),
+          ),
+        ],
       ),
+      const SizedBox(height: 10),
+      _shareBar(detail),
       if (detail.authors.isNotEmpty)
         Text(
           detail.authors.map((author) => author.name).join(' · '),
@@ -200,4 +217,91 @@ class _NewsDetailRouteState extends State<NewsDetailRoute> {
       const SizedBox(height: 24),
     ],
   );
+
+  Widget _shareBar(NewsDetailModel detail) {
+    final url = (detail.canonicalUrl?.trim().isNotEmpty ?? false)
+        ? detail.canonicalUrl!.trim()
+        : '${AppConfig.productionSiteUrl}/haber/${detail.slug}';
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _shareButton(
+          icon: Icons.chat_bubble_outline_rounded,
+          label: 'WhatsApp',
+          onTap: () => _openShare(
+            'https://wa.me/?text=${Uri.encodeComponent('${detail.title} $url')}',
+          ),
+        ),
+        _shareButton(
+          icon: Icons.facebook_rounded,
+          label: 'Facebook',
+          onTap: () => _openShare(
+            'https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(url)}',
+          ),
+        ),
+        _shareButton(
+          icon: Icons.alternate_email_rounded,
+          label: 'X',
+          onTap: () => _openShare(
+            'https://twitter.com/intent/tweet?text=${Uri.encodeComponent(detail.title)}&url=${Uri.encodeComponent(url)}',
+          ),
+        ),
+        _shareButton(
+          icon: Icons.link_rounded,
+          label: 'Linki Kopyala',
+          onTap: () async {
+            await Clipboard.setData(ClipboardData(text: url));
+            if (!mounted) return;
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(
+                  content: Text('Haber bağlantısı kopyalandı.'),
+                  duration: Duration(seconds: 1),
+                ),
+              );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _shareButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) => OutlinedButton.icon(
+    onPressed: onTap,
+    icon: Icon(icon, size: 17),
+    label: Text(label),
+    style: OutlinedButton.styleFrom(
+      minimumSize: const Size(48, 42),
+      padding: const EdgeInsets.symmetric(horizontal: 11),
+      side: const BorderSide(color: homeLine),
+      foregroundColor: homeNavy,
+      textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+    ),
+  );
+
+  Future<void> _openShare(String rawUrl) async {
+    try {
+      await launchUrl(Uri.parse(rawUrl), mode: LaunchMode.externalApplication);
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Paylaşım bağlantısı açılamadı.')),
+      );
+    }
+  }
+
+  static String _formatCount(int value) {
+    final raw = value.toString();
+    final out = StringBuffer();
+    for (var i = 0; i < raw.length; i++) {
+      if (i > 0 && (raw.length - i) % 3 == 0) out.write('.');
+      out.write(raw[i]);
+    }
+    return out.toString();
+  }
 }
