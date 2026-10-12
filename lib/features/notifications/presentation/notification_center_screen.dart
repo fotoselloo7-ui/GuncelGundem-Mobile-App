@@ -6,7 +6,7 @@ import '../../../design/branding_state.dart';
 import '../../../services/firebase_push_coordinator.dart';
 import '../../../services/notification_inbox_service.dart';
 import '../../home/presentation/home_widgets.dart';
-import '../presentation/notification_preferences_screen.dart';
+import 'notification_preferences_screen.dart';
 
 class NotificationCenterScreen extends StatelessWidget {
   const NotificationCenterScreen({super.key});
