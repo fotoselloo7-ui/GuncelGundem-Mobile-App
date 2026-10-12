@@ -1,6 +1,8 @@
 package tr.guncelgundem.guncelgundem
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -36,6 +38,7 @@ class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ensureNotificationChannels()
         // Cold-start linkini kaydet; Dart tarafı `initial` ile talep edecek.
         intent?.dataString?.takeIf { it.isNotEmpty() }?.let { pendingInitialLink = it }
     }
@@ -79,6 +82,30 @@ class MainActivity : FlutterActivity() {
                 }
             }
         }
+    }
+
+    /** FCM payload'ındaki kanal kimlikleriyle birebir aynı Android 8+ kanalları. */
+    private fun ensureNotificationChannels() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+        val manager = getSystemService(NotificationManager::class.java) ?: return
+
+        val news = NotificationChannel(
+            "guncelgundem_news",
+            "Güncel Gündem Haberleri",
+            NotificationManager.IMPORTANCE_DEFAULT,
+        ).apply {
+            description = "Güncel haberler ve bilgilendirmeler"
+            enableVibration(true)
+        }
+        val breaking = NotificationChannel(
+            "guncelgundem_breaking",
+            "Son Dakika Haberleri",
+            NotificationManager.IMPORTANCE_HIGH,
+        ).apply {
+            description = "Önemli ve son dakika haberleri"
+            enableVibration(true)
+        }
+        manager.createNotificationChannels(listOf(news, breaking))
     }
 
     /** Güncel izin durumunu string olarak döner. */
