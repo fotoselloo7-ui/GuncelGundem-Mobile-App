@@ -125,29 +125,35 @@ class CityLiveModules extends StatelessWidget {
                     '${prayer.cityName ?? ''} il merkezi hesabı',
                     style: const TextStyle(fontSize: 11, color: homeMuted),
                   ),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                Row(
                   children: [
-                    for (final item in prayer.items)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: homeLine),
-                        ),
-                        child: Text(
-                          '${liveText(item['name']) ?? ''}\n${liveText(item['time']) ?? ''}',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
+                    for (var i = 0; i < prayer.items.take(6).length; i++) ...[
+                      if (i > 0) const SizedBox(width: 5),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 3,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: homeLine),
+                          ),
+                          child: Text(
+                            '${liveText(prayer.items[i]['name']) ?? ''}\n${liveText(prayer.items[i]['time']) ?? ''}',
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 10.5,
+                              height: 1.25,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
+                    ],
                   ],
                 ),
                 _LiveModuleNote(module: prayer),
