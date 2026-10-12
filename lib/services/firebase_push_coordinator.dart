@@ -120,6 +120,9 @@ class FirebasePushCoordinator {
     });
   }
 
+  Future<void> openForegroundPayload(PushNotificationPayload payload) =>
+      _push.handleNotificationOpen(payload);
+
   Future<void> _openNotification(RemoteMessage message) async {
     try {
       await _push.handleNotificationOpen(_parsePayload(message));
