@@ -89,7 +89,7 @@ class _GuncelGundemAppState extends State<GuncelGundemApp>
         content: Text(
           payload.body.isEmpty
               ? payload.title
-              : '${payload.title}\\n${payload.body}',
+              : '${payload.title}\n${payload.body}',
         ),
         action: SnackBarAction(
           label: 'Aç',
