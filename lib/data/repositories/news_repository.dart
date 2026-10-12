@@ -340,6 +340,11 @@ class NewsRepository {
   }
 
   /// Lokasyon Haberleri
+  ///
+  /// Yerel akış, kategori akışlarıyla aynı cache/offline korumasını kullanır.
+  /// İlçe filtresi boş dönerse il geneline güvenli şekilde düşer; böylece
+  /// geçici indeks gecikmesi veya yalnız il etiketi taşıyan haberler yüzünden
+  /// ekran rastgele boşalmaz.
   Future<PaginatedNewsResult> getLocationNews(
     String slug, {
     String? district,
@@ -347,18 +352,38 @@ class NewsRepository {
     int page = 1,
     int limit = 15,
   }) async {
-    final response = await _apiService.getLocationNews(
-      slug,
-      district: district,
-      hours: hours,
+    Future<PaginatedNewsResult> load(String? districtSlug) => _cachedPage(
+      'cache_news_location_${Uri.encodeComponent(slug)}'
+      '_d${Uri.encodeComponent(districtSlug ?? '')}'
+      '_h${hours ?? 0}_p${page}_l$limit',
       page: page,
       limit: limit,
+      request: (etag, payload) => _apiService.getLocationNews(
+        slug,
+        district: districtSlug,
+        hours: hours,
+        page: page,
+        limit: limit,
+        etag: etag,
+        cachedPayload: payload,
+      ),
     );
-    return PaginatedNewsResult(
-      news: response.data ?? const [],
-      meta: response.meta,
-      isFromCache: response.isFromCache,
-    );
+
+    try {
+      final scoped = await load(district);
+      if (scoped.news.isNotEmpty ||
+          district == null ||
+          district.isEmpty ||
+          page > 1) {
+        return scoped;
+      }
+      return await load(null);
+    } catch (_) {
+      if (district != null && district.isNotEmpty && page == 1) {
+        return load(null);
+      }
+      rethrow;
+    }
   }
 
   /// Trendler
