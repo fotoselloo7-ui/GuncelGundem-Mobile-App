@@ -22,6 +22,7 @@ class NewsDetailModel extends Equatable {
   final List<TagModel> tags;
   final List<TopicModel> topics;
   final List<NewsModel> relatedNews;
+  final int viewCount;
 
   const NewsDetailModel({
     required this.card,
@@ -34,6 +35,7 @@ class NewsDetailModel extends Equatable {
     this.tags = const [],
     this.topics = const [],
     this.relatedNews = const [],
+    this.viewCount = 0,
   });
 
   // Delegated getters from NewsModel for ease of use
@@ -134,6 +136,7 @@ class NewsDetailModel extends Equatable {
       tags: tags,
       topics: topics,
       relatedNews: relatedNews,
+      viewCount: int.tryParse(json['view_count']?.toString() ?? '') ?? 0,
     );
   }
 
@@ -148,6 +151,7 @@ class NewsDetailModel extends Equatable {
     base['tags'] = tags.map((t) => t.toJson()).toList();
     base['topics'] = topics.map((t) => t.toJson()).toList();
     base['related_news'] = relatedNews.map((r) => r.toJson()).toList();
+    base['view_count'] = viewCount;
     return base;
   }
 
@@ -163,5 +167,6 @@ class NewsDetailModel extends Equatable {
     tags,
     topics,
     relatedNews,
+    viewCount,
   ];
 }
