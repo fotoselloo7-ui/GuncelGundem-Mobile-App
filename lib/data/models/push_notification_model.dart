@@ -50,7 +50,7 @@ class PushNotificationPayload {
     return PushNotificationPayload(
       title:
           json['title'] as String? ??
-          (data['title'] as String? ?? 'GüncelGündem'),
+          (data['title'] as String? ?? 'Güncel Gündem'),
       body: json['body'] as String? ?? (data['body'] as String? ?? ''),
       eventType: data['event_type'] as String? ?? 'MANUAL_NEWS',
       newsId: (data['news_id'] ?? data['content_id'])?.toString(),
