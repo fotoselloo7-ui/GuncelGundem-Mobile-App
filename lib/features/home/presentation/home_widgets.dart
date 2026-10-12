@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../app/bottom_nav_preferences.dart';
 import '../../../design/branding_state.dart';
+import '../../../services/notification_inbox_service.dart';
 
 import '../../news/presentation/widgets/cached_image_widget.dart';
 
@@ -82,19 +83,55 @@ class HomeBrandHeader extends StatelessWidget implements PreferredSizeWidget {
         constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
         icon: const Icon(Icons.search_rounded, color: homeNavy),
       ),
-      IconButton(
-        tooltip: 'Bildirimler',
-        onPressed: onNotifications,
-        constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-        icon: const Icon(Icons.notifications_none_rounded, color: homeNavy),
+      AnimatedBuilder(
+        animation: NotificationInboxService.instance,
+        builder: (context, _) {
+          final count = NotificationInboxService.instance.unreadCount;
+          return IconButton(
+            tooltip: 'Bildirimler',
+            onPressed: onNotifications,
+            constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(Icons.notifications_none_rounded, color: homeNavy),
+                if (count > 0)
+                  Positioned(
+                    right: -7,
+                    top: -7,
+                    child: Container(
+                      constraints: const BoxConstraints(minWidth: 17),
+                      height: 17,
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        color: brand.primaryColor,
+                        borderRadius: BorderRadius.circular(9),
+                        border: Border.all(color: Colors.white, width: 1.5),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        count > 9 ? '9+' : '$count',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 9,
+                          height: 1,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          );
+        },
       ),
       if (onContact != null)
         IconButton(
           key: const ValueKey('header-contact'),
-          tooltip: 'Bize Ulaşın',
+          tooltip: 'Özel Haber Yayınlat',
           onPressed: onContact,
           constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-          icon: const Icon(Icons.contact_support_outlined, color: homeNavy),
+          icon: const Icon(Icons.campaign_outlined, color: homeNavy),
         ),
       const SizedBox(width: 4),
     ],
