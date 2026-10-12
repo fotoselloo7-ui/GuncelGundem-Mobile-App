@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../data/models/news_model.dart';
-import '../data/models/push_notification_model.dart';
 import '../design/app_theme.dart';
 import 'app_config.dart';
 import '../design/branding_state.dart';
@@ -42,7 +41,6 @@ class _GuncelGundemAppState extends State<GuncelGundemApp>
       widget.deepLinkService ?? DeepLinkService();
   StreamSubscription<DeepLinkIntent>? _linkSubscription;
   StreamSubscription<PendingNotificationIntent>? _pushSubscription;
-  StreamSubscription<PushNotificationPayload>? _foregroundSubscription;
 
   @override
   void initState() {
@@ -63,9 +61,6 @@ class _GuncelGundemAppState extends State<GuncelGundemApp>
 
   void _bindPush() {
     _pushSubscription = _push.onNotificationClicked.listen(_dispatchPush);
-    _foregroundSubscription = _push.onForegroundNotification.listen(
-      _showForegroundNotification,
-    );
     unawaited(_push.start());
   }
 
@@ -79,24 +74,6 @@ class _GuncelGundemAppState extends State<GuncelGundemApp>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _dispatch(target);
     });
-  }
-
-  void _showForegroundNotification(PushNotificationPayload payload) {
-    final messenger = _messenger.currentState;
-    if (messenger == null) return;
-    messenger.showSnackBar(
-      SnackBar(
-        content: Text(
-          payload.body.isEmpty
-              ? payload.title
-              : '${payload.title}\n${payload.body}',
-        ),
-        action: SnackBarAction(
-          label: 'Aç',
-          onPressed: () => unawaited(_push.openForegroundPayload(payload)),
-        ),
-      ),
-    );
   }
 
   @override
@@ -141,7 +118,6 @@ class _GuncelGundemAppState extends State<GuncelGundemApp>
     WidgetsBinding.instance.removeObserver(this);
     _linkSubscription?.cancel();
     _pushSubscription?.cancel();
-    _foregroundSubscription?.cancel();
     super.dispose();
   }
 
