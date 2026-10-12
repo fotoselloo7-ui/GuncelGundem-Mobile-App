@@ -17,9 +17,9 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Android: android/app/google-services.json varsayılan Firebase uygulamasını
-  // yapılandırır. iOS APNs/GoogleService-Info.plist tamamlanana dek dokunulmaz.
-  if (Platform.isAndroid) {
+  // Android google-services.json, iOS GoogleService-Info.plist üzerinden
+  // yapılandırılır. iOS plist henüz eklenmemişse uygulama Firebase olmadan açılır.
+  if (Platform.isAndroid || Platform.isIOS) {
     try {
       await Firebase.initializeApp();
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
