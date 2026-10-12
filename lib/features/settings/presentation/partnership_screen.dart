@@ -85,8 +85,29 @@ class _PartnershipScreenState extends State<PartnershipScreen> {
                 contact['whatsapp_enabled'] != false && whatsapp.isNotEmpty;
 
             Future<void> primaryAction() async {
+              final preferred = _text(ui['primary_channel']).toLowerCase();
+              if (preferred == 'instagram' && instagramEnabled) {
+                await _launch(Uri.parse(instagram));
+                return;
+              }
+              if (preferred == 'email' && emailEnabled) {
+                await _launch(
+                  Uri(
+                    scheme: 'mailto',
+                    path: email,
+                    queryParameters: const {
+                      'subject': 'Özel Haber Yayınlatma Talebi',
+                    },
+                  ),
+                );
+                return;
+              }
               if (whatsappEnabled) {
                 await _launch(Uri.parse(whatsapp));
+                return;
+              }
+              if (instagramEnabled) {
+                await _launch(Uri.parse(instagram));
                 return;
               }
               await _launch(
