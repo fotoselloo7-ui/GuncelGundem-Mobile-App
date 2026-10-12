@@ -55,15 +55,50 @@ class _PartnershipScreenState extends State<PartnershipScreen> {
           future: _future,
           builder: (context, snapshot) {
             final data = snapshot.data ?? const <String, dynamic>{};
-            final stats = data['stats'] is Map
-                ? Map<String, dynamic>.from(data['stats'] as Map)
-                : const <String, dynamic>{};
-            final ads = data['mobile_ads'] is Map
-                ? Map<String, dynamic>.from(data['mobile_ads'] as Map)
-                : const <String, dynamic>{};
-            final contact = data['contact'] is Map
-                ? Map<String, dynamic>.from(data['contact'] as Map)
-                : const <String, dynamic>{};
+            final stats = _map(data['stats']);
+            final audience = _map(data['audience']);
+            final ads = _map(data['mobile_ads']);
+            final contact = _map(data['contact']);
+            final ui = _map(data['ui']);
+
+            final headline = _text(ui['headline']).isNotEmpty
+                ? _text(ui['headline'])
+                : 'Hikâyenizi Güncel Gündem’de yayınlayın';
+            final description = _text(ui['description']).isNotEmpty
+                ? _text(ui['description'])
+                : 'Özel haber, marka iş birliği ve sponsorlu içerik talepleriniz için doğrudan iletişime geçin.';
+            final ctaLabel = _text(ui['cta_label']).isNotEmpty
+                ? _text(ui['cta_label'])
+                : 'Özel Haber Yayınlat';
+            final showStats = ui['show_stats'] != false;
+            final showAdStats = ui['show_ad_stats'] != false;
+
+            final email = _text(contact['email']).isNotEmpty
+                ? _text(contact['email'])
+                : AppConfig.contactEmail;
+            final instagram = _text(contact['instagram_url']);
+            final whatsapp = _text(contact['whatsapp_url']);
+            final emailEnabled = contact['email_enabled'] != false;
+            final instagramEnabled =
+                contact['instagram_enabled'] != false && instagram.isNotEmpty;
+            final whatsappEnabled =
+                contact['whatsapp_enabled'] != false && whatsapp.isNotEmpty;
+
+            Future<void> primaryAction() async {
+              if (whatsappEnabled) {
+                await _launch(Uri.parse(whatsapp));
+                return;
+              }
+              await _launch(
+                Uri(
+                  scheme: 'mailto',
+                  path: email,
+                  queryParameters: const {
+                    'subject': 'Özel Haber Yayınlatma Talebi',
+                  },
+                ),
+              );
+            }
 
             return RefreshIndicator(
               onRefresh: () async {
@@ -71,204 +106,184 @@ class _PartnershipScreenState extends State<PartnershipScreen> {
                 await _future;
               },
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(18),
-                    decoration: BoxDecoration(
-                      color: homeNavy,
-                      borderRadius: BorderRadius.circular(18),
+                  _HeroCard(
+                    headline: headline,
+                    description: description,
+                    ctaLabel: ctaLabel,
+                    onTap: primaryAction,
+                  ),
+                  if (showStats) ...[
+                    const SizedBox(height: 22),
+                    _SectionHeading(
+                      title: 'Güncel erişim',
+                      subtitle: 'Gerçek site ve mobil erişim verileri',
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Hikâyenizi Güncel Gündem’de yayınlayın',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            height: 1.3,
-                            fontWeight: FontWeight.w700,
-                          ),
+                    const SizedBox(height: 10),
+                    if (snapshot.connectionState == ConnectionState.waiting)
+                      const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(28),
+                          child: CircularProgressIndicator(),
                         ),
-                        const SizedBox(height: 7),
-                        const Text(
-                          'Özel haber, marka iş birliği ve sponsorlu içerik talepleriniz için doğrudan iletişime geçin.',
-                          style: TextStyle(
-                            color: Color(0xffcbd5e1),
-                            fontSize: 13,
-                            height: 1.5,
+                      )
+                    else if (snapshot.hasError)
+                      const HomeMessage(
+                        'İstatistikler şu anda yüklenemedi. İletişim kanallarını yine kullanabilirsiniz.',
+                        icon: Icons.analytics_outlined,
+                      )
+                    else ...[
+                      _ReachHighlight(
+                        value: _number(stats['last_30_days']),
+                        label: 'Son 30 günde görüntülenme',
+                        secondary:
+                            '${_number(stats['this_month'])} bu ay · ${_number(stats['today'])} bugün',
+                      ),
+                      const SizedBox(height: 10),
+                      GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1.82,
+                        children: [
+                          _AudienceCard(
+                            icon: Icons.people_alt_outlined,
+                            label: 'Şu an sitede',
+                            value: _number(audience['live_visitors']),
                           ),
-                        ),
-                        const SizedBox(height: 14),
-                        FilledButton.icon(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: brand.primaryColor,
-                            foregroundColor: Colors.white,
-                            minimumSize: const Size.fromHeight(48),
+                          _AudienceCard(
+                            icon: Icons.phone_android_rounded,
+                            label: 'Kayıtlı mobil cihaz',
+                            value: _number(audience['registered_devices']),
                           ),
-                          onPressed: () => _launch(
-                            Uri(
-                              scheme: 'mailto',
-                              path: _text(contact['email']).isNotEmpty
-                                  ? _text(contact['email'])
-                                  : AppConfig.contactEmail,
-                              queryParameters: const {
-                                'subject': 'Özel Haber Yayınlatma Talebi',
-                              },
+                          _AudienceCard(
+                            icon: Icons.notifications_active_outlined,
+                            label: 'Aktif bildirim cihazı',
+                            value: _number(audience['active_push_devices']),
+                          ),
+                          _AudienceCard(
+                            icon: Icons.person_search_outlined,
+                            label: 'Bugün tekil ziyaretçi',
+                            value: _number(audience['unique_today']),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
+                  if (showAdStats) ...[
+                    const SizedBox(height: 22),
+                    _SectionHeading(
+                      title: 'Mobil reklam performansı',
+                      subtitle: 'Yayındaki kampanyaların toplam mobil sonucu',
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: homeLine),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: _MiniStat(
+                              label: 'Aktif',
+                              value: _number(ads['active_campaigns']),
                             ),
                           ),
-                          icon: const Icon(Icons.campaign_rounded),
-                          label: const Text('Özel Haber Yayınlat'),
-                        ),
-                      ],
+                          const _Divider(),
+                          Expanded(
+                            child: _MiniStat(
+                              label: 'Gösterim',
+                              value: _number(ads['impressions']),
+                            ),
+                          ),
+                          const _Divider(),
+                          Expanded(
+                            child: _MiniStat(
+                              label: 'Tıklama',
+                              value: _number(ads['clicks']),
+                            ),
+                          ),
+                          const _Divider(),
+                          Expanded(
+                            child: _MiniStat(
+                              label: 'CTR',
+                              value: '%${_decimal(ads['ctr'])}',
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 18),
-                  const Text(
-                    'Güncel erişim',
-                    style: TextStyle(
-                      color: homeNavy,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  ],
+                  const SizedBox(height: 22),
+                  const _SectionHeading(
+                    title: 'İletişim',
+                    subtitle: 'Size uygun kanaldan doğrudan ulaşın',
                   ),
                   const SizedBox(height: 10),
-                  if (snapshot.connectionState == ConnectionState.waiting)
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(28),
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  else if (snapshot.hasError)
-                    HomeMessage(
-                      'İstatistikler şu anda yüklenemedi. İletişim kanallarını yine kullanabilirsiniz.',
-                      icon: Icons.analytics_outlined,
+                  if (!emailEnabled &&
+                      !instagramEnabled &&
+                      !whatsappEnabled)
+                    const HomeMessage(
+                      'İletişim kanalları şu anda güncelleniyor.',
+                      icon: Icons.support_agent_rounded,
                     )
                   else
-                    GridView.count(
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 1.55,
+                    Column(
                       children: [
-                        _MetricCard(
-                          label: 'Son 30 Gün',
-                          value: _number(stats['last_30_days']),
-                        ),
-                        _MetricCard(
-                          label: 'Bu Ay',
-                          value: _number(stats['this_month']),
-                        ),
-                        _MetricCard(
-                          label: 'Bugün',
-                          value: _number(stats['today']),
-                        ),
-                        _MetricCard(
-                          label: 'Toplam',
-                          value: _number(stats['all_time']),
-                        ),
+                        if (whatsappEnabled)
+                          _ContactButton(
+                            icon: Icons.chat_bubble_outline_rounded,
+                            label: 'WhatsApp',
+                            value: 'Hızlıca mesaj gönder',
+                            emphasized: true,
+                            onTap: () => _launch(Uri.parse(whatsapp)),
+                          ),
+                        if (whatsappEnabled &&
+                            (instagramEnabled || emailEnabled))
+                          const SizedBox(height: 8),
+                        if (instagramEnabled)
+                          _ContactButton(
+                            icon: Icons.camera_alt_outlined,
+                            label: 'Instagram',
+                            value: 'Instagram’dan yaz',
+                            onTap: () => _launch(Uri.parse(instagram)),
+                          ),
+                        if (instagramEnabled && emailEnabled)
+                          const SizedBox(height: 8),
+                        if (emailEnabled)
+                          _ContactButton(
+                            icon: Icons.mail_outline_rounded,
+                            label: 'E-posta',
+                            value: email,
+                            onTap: () => _launch(
+                              Uri(
+                                scheme: 'mailto',
+                                path: email,
+                                queryParameters: const {
+                                  'subject': 'Özel Haber & İş Birliği',
+                                },
+                              ),
+                            ),
+                          ),
                       ],
                     ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 12),
                   const Text(
-                    'Mobil reklam performansı',
-                    style: TextStyle(
-                      color: homeNavy,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: homeLine),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: _MiniStat(
-                            label: 'Gösterim',
-                            value: _number(ads['impressions']),
-                          ),
-                        ),
-                        const _Divider(),
-                        Expanded(
-                          child: _MiniStat(
-                            label: 'Tıklama',
-                            value: _number(ads['clicks']),
-                          ),
-                        ),
-                        const _Divider(),
-                        Expanded(
-                          child: _MiniStat(
-                            label: 'CTR',
-                            value: '%${_decimal(ads['ctr'])}',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  const Text(
-                    'İletişim',
-                    style: TextStyle(
-                      color: homeNavy,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  _ContactButton(
-                    icon: Icons.mail_outline_rounded,
-                    label: 'E-posta',
-                    value: _text(contact['email']).isNotEmpty
-                        ? _text(contact['email'])
-                        : AppConfig.contactEmail,
-                    onTap: () => _launch(
-                      Uri(
-                        scheme: 'mailto',
-                        path: _text(contact['email']).isNotEmpty
-                            ? _text(contact['email'])
-                            : AppConfig.contactEmail,
-                        queryParameters: const {
-                          'subject': 'Özel Haber & İş Birliği',
-                        },
-                      ),
-                    ),
-                  ),
-                  if (_text(contact['instagram_url']).isNotEmpty) ...[
-                    const SizedBox(height: 8),
-                    _ContactButton(
-                      icon: Icons.camera_alt_outlined,
-                      label: 'Instagram',
-                      value: 'Instagram’dan yaz',
-                      onTap: () =>
-                          _launch(Uri.parse(_text(contact['instagram_url']))),
-                    ),
-                  ],
-                  if (_text(contact['whatsapp_url']).isNotEmpty) ...[
-                    const SizedBox(height: 8),
-                    _ContactButton(
-                      icon: Icons.chat_bubble_outline_rounded,
-                      label: 'WhatsApp',
-                      value: 'WhatsApp’tan yaz',
-                      onTap: () =>
-                          _launch(Uri.parse(_text(contact['whatsapp_url']))),
-                    ),
-                  ],
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Not: İstatistikler toplu erişim verileridir; kişisel ziyaretçi bilgisi gösterilmez.',
+                    'Erişim değerleri toplu istatistiklerdir; kişisel ziyaretçi bilgisi gösterilmez.',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: homeMuted,
-                      fontSize: 11,
+                      fontSize: 10.5,
                       height: 1.45,
                     ),
                   ),
@@ -280,6 +295,9 @@ class _PartnershipScreenState extends State<PartnershipScreen> {
       ),
     );
   }
+
+  static Map<String, dynamic> _map(dynamic value) =>
+      value is Map ? Map<String, dynamic>.from(value) : const {};
 
   static String _text(dynamic value) => value?.toString().trim() ?? '';
 
@@ -301,47 +319,287 @@ class _PartnershipScreenState extends State<PartnershipScreen> {
 
   Future<void> _launch(Uri uri) async {
     try {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+      final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!opened && mounted) _showLaunchError();
     } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (mounted) _showLaunchError();
+    }
+  }
+
+  void _showLaunchError() {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
         const SnackBar(content: Text('Bağlantı açılamadı.')),
       );
-    }
   }
 }
 
-class _MetricCard extends StatelessWidget {
+class _HeroCard extends StatelessWidget {
+  final String headline;
+  final String description;
+  final String ctaLabel;
+  final Future<void> Function() onTap;
+
+  const _HeroCard({
+    required this.headline,
+    required this.description,
+    required this.ctaLabel,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final brand = BrandingState.instance;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
+      decoration: BoxDecoration(
+        color: homeNavy,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: homeNavy.withValues(alpha: 0.10),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.09),
+              borderRadius: BorderRadius.circular(999),
+            ),
+            child: const Text(
+              'ÖZEL HABER · MARKA İŞ BİRLİĞİ',
+              style: TextStyle(
+                color: Color(0xffe2e8f0),
+                fontSize: 9.5,
+                letterSpacing: 0.6,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          const SizedBox(height: 11),
+          Text(
+            headline,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              height: 1.28,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 7),
+          Text(
+            description,
+            style: const TextStyle(
+              color: Color(0xffcbd5e1),
+              fontSize: 12.5,
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 15),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              style: FilledButton.styleFrom(
+                backgroundColor: brand.primaryColor,
+                foregroundColor: Colors.white,
+                minimumSize: const Size.fromHeight(48),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              onPressed: onTap,
+              icon: const Icon(Icons.campaign_rounded, size: 19),
+              label: Text(
+                ctaLabel,
+                style: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionHeading extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const _SectionHeading({required this.title, required this.subtitle});
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        title,
+        style: const TextStyle(
+          color: homeNavy,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      const SizedBox(height: 2),
+      Text(
+        subtitle,
+        style: const TextStyle(
+          color: homeMuted,
+          fontSize: 11.5,
+          height: 1.4,
+        ),
+      ),
+    ],
+  );
+}
+
+class _ReachHighlight extends StatelessWidget {
+  final String value;
+  final String label;
+  final String secondary;
+
+  const _ReachHighlight({
+    required this.value,
+    required this.label,
+    required this.secondary,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final brand = BrandingState.instance;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: brand.primaryColor.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: brand.primaryColor.withValues(alpha: 0.16),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 46,
+            height: 46,
+            decoration: BoxDecoration(
+              color: brand.primaryColor,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: const Icon(
+              Icons.trending_up_rounded,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 13),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value,
+                  style: const TextStyle(
+                    color: homeNavy,
+                    fontSize: 24,
+                    height: 1.1,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: homeNavy,
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  secondary,
+                  style: const TextStyle(
+                    color: homeMuted,
+                    fontSize: 10.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AudienceCard extends StatelessWidget {
+  final IconData icon;
   final String label;
   final String value;
 
-  const _MetricCard({required this.label, required this.value});
+  const _AudienceCard({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(14),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(14),
-      border: Border.all(color: homeLine),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            color: homeNavy,
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
+  Widget build(BuildContext context) {
+    final brand = BrandingState.instance;
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: homeLine),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: brand.primaryColor.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(11),
+            ),
+            child: Icon(icon, size: 19, color: brand.primaryColor),
           ),
-        ),
-        const SizedBox(height: 3),
-        Text(label, style: const TextStyle(color: homeMuted, fontSize: 11)),
-      ],
-    ),
-  );
+          const SizedBox(width: 9),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    color: homeNavy,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  label,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: homeMuted,
+                    fontSize: 9.7,
+                    height: 1.25,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _MiniStat extends StatelessWidget {
@@ -355,9 +613,10 @@ class _MiniStat extends StatelessWidget {
     children: [
       Text(
         value,
+        maxLines: 1,
         style: const TextStyle(
           color: homeNavy,
-          fontSize: 17,
+          fontSize: 15,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -365,7 +624,8 @@ class _MiniStat extends StatelessWidget {
       Text(
         label,
         textAlign: TextAlign.center,
-        style: const TextStyle(color: homeMuted, fontSize: 10.5),
+        maxLines: 1,
+        style: const TextStyle(color: homeMuted, fontSize: 9.5),
       ),
     ],
   );
@@ -376,7 +636,7 @@ class _Divider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      const SizedBox(height: 42, child: VerticalDivider(color: homeLine));
+      const SizedBox(height: 40, child: VerticalDivider(color: homeLine));
 }
 
 class _ContactButton extends StatelessWidget {
@@ -384,60 +644,88 @@ class _ContactButton extends StatelessWidget {
   final String label;
   final String value;
   final VoidCallback onTap;
+  final bool emphasized;
 
   const _ContactButton({
     required this.icon,
     required this.label,
     required this.value,
     required this.onTap,
+    this.emphasized = false,
   });
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: Colors.white,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(14),
-      side: const BorderSide(color: homeLine),
-    ),
-    child: InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(
-          children: [
-            Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                color: homeBackground,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, color: homeNavy),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: homeNavy,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    value,
-                    style: const TextStyle(color: homeMuted, fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(Icons.open_in_new_rounded, color: homeMuted, size: 18),
-          ],
+  Widget build(BuildContext context) {
+    final brand = BrandingState.instance;
+    return Material(
+      color: emphasized
+          ? brand.primaryColor.withValues(alpha: 0.055)
+          : Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+        side: BorderSide(
+          color: emphasized
+              ? brand.primaryColor.withValues(alpha: 0.20)
+              : homeLine,
         ),
       ),
-    ),
-  );
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(13, 12, 12, 12),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: emphasized
+                      ? brand.primaryColor
+                      : homeBackground,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
+                  size: 19,
+                  color: emphasized ? Colors.white : homeNavy,
+                ),
+              ),
+              const SizedBox(width: 11),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: const TextStyle(
+                        color: homeNavy,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13.5,
+                      ),
+                    ),
+                    const SizedBox(height: 1),
+                    Text(
+                      value,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: homeMuted,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: homeMuted,
+                size: 15,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
