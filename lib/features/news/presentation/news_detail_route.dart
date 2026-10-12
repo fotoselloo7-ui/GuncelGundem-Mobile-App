@@ -234,7 +234,7 @@ class _NewsDetailRouteState extends State<NewsDetailRoute> {
           ),
         ),
         _shareButton(
-          icon: Icons.facebook_rounded,
+          icon: Icons.public_rounded,
           label: 'Facebook',
           onTap: () => _openShare(
             'https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(url)}',
