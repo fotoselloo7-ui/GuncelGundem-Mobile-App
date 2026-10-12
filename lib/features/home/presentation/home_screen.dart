@@ -318,14 +318,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (!mounted || !_active) return;
     final generation = ++_adGeneration;
     try {
-      final response = await _ads.getAds(
+      final ad = await _ads.getTopAd(
         placement: _placement,
         locationId: _city?.location.id,
       );
       if (!mounted || !_active || generation != _adGeneration) return;
-      if (!response.success) return;
-      final items = response.data ?? const <MobileAdModel>[];
-      setState(() => _ad = items.isEmpty ? null : items.first);
+      setState(() => _ad = ad);
     } catch (_) {
       // Geçici bağlantı hatasında mevcut reklam ekranda kalır.
     }
