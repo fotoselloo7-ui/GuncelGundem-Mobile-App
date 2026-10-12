@@ -230,7 +230,7 @@ class _NotificationPreferencesScreenState
             const SizedBox(width: 4),
           ],
           title: const Text(
-            'Bildirimler',
+            'Bildirim Ayarları',
             style: TextStyle(
               fontFamily: 'Poppins',
               color: homeNavy,
@@ -265,6 +265,35 @@ class _NotificationPreferencesScreenState
       children: [
         if (enabled) _buildPermissionBanner(brand),
         _buildMasterCard(brand),
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: const Color(0xfffffbeb),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: const Color(0xfffde68a)),
+          ),
+          child: const Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.auto_awesome_rounded, color: Color(0xffb45309)),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  'Akıllı bildirim sınırı açık: kategori ve yerel haberlerden '
+                  'günde en fazla 3 bildirim gönderilir ve aralarında en az '
+                  '2 saat bırakılır. Son Dakika bildirimleri bu sınıra dahil değildir.',
+                  style: TextStyle(
+                    color: Color(0xff78350f),
+                    fontSize: 12,
+                    height: 1.5,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 16),
         _SectionLabel('Bildirim Türleri', enabled: enabled),
         _buildCard(
@@ -502,7 +531,7 @@ class _NotificationPreferencesScreenState
             icon: Icons.apps_rounded,
             title: 'Tüm Haber Kategorileri',
             subtitle:
-                'Yeni içerik yayınlandığında tüm kategorilerden bildirim.',
+                'Tüm kategorileri takip eder; akıllı günlük sınır yine uygulanır.',
             value: allCategories,
             enabled: enabled,
             onChanged: (v) => _apply(_prefs.copyWith(allCategories: v)),
