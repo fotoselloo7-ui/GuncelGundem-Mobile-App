@@ -49,6 +49,12 @@
 			</array>
 		</dict>
 	</dict>
+	<!-- FCM: arka plan veri bildirimleri ve uzaktan bildirim işleme. -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<!-- Haber Gönder opsiyonel fotoğraf eki için — modern PHPickerViewController kullanılır. -->
