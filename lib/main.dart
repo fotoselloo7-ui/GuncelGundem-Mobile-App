@@ -7,11 +7,20 @@ import 'package:flutter/material.dart';
 
 import 'app/app.dart';
 import 'app/app_startup.dart';
+import 'data/models/push_notification_model.dart';
+import 'services/notification_inbox_service.dart';
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // Android arka plan isolate'ında Firebase'i hazırlar; UI değiştirmez.
   await Firebase.initializeApp();
+  final payload = PushNotificationPayload.fromJson({
+    ...message.data,
+    if (message.notification?.title != null)
+      'title': message.notification!.title,
+    if (message.notification?.body != null)
+      'body': message.notification!.body,
+  });
+  await NotificationInboxService.instance.add(payload);
 }
 
 void main() async {
@@ -27,6 +36,8 @@ void main() async {
       if (kDebugMode) debugPrint('[FCM] Firebase init error: $error');
     }
   }
+
+  await NotificationInboxService.instance.initialize();
 
   final startupCoordinator = AppStartupCoordinator();
   runApp(GuncelGundemApp(startupCoordinator: startupCoordinator));
