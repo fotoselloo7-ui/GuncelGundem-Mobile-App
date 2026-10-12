@@ -222,48 +222,65 @@ class _NewsDetailRouteState extends State<NewsDetailRoute> {
     final url = (detail.canonicalUrl?.trim().isNotEmpty ?? false)
         ? detail.canonicalUrl!.trim()
         : '${AppConfig.productionSiteUrl}/haber/${detail.slug}';
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        _shareButton(
-          icon: Icons.chat_bubble_outline_rounded,
-          label: 'WhatsApp',
-          onTap: () => _openShare(
-            'https://wa.me/?text=${Uri.encodeComponent('${detail.title} $url')}',
-          ),
-        ),
-        _shareButton(
-          icon: Icons.public_rounded,
-          label: 'Facebook',
-          onTap: () => _openShare(
-            'https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(url)}',
-          ),
-        ),
-        _shareButton(
-          icon: Icons.alternate_email_rounded,
-          label: 'X',
-          onTap: () => _openShare(
-            'https://twitter.com/intent/tweet?text=${Uri.encodeComponent(detail.title)}&url=${Uri.encodeComponent(url)}',
-          ),
-        ),
-        _shareButton(
-          icon: Icons.link_rounded,
-          label: 'Linki Kopyala',
-          onTap: () async {
-            await Clipboard.setData(ClipboardData(text: url));
-            if (!mounted) return;
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Haber bağlantısı kopyalandı.'),
-                  duration: Duration(seconds: 1),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final buttonWidth = (constraints.maxWidth - 8) / 2;
+        return Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            SizedBox(
+              width: buttonWidth,
+              child: _shareButton(
+                icon: Icons.chat_bubble_outline_rounded,
+                label: 'WhatsApp',
+                onTap: () => _openShare(
+                  'https://wa.me/?text=${Uri.encodeComponent('${detail.title} $url')}',
                 ),
-              );
-          },
-        ),
-      ],
+              ),
+            ),
+            SizedBox(
+              width: buttonWidth,
+              child: _shareButton(
+                icon: Icons.public_rounded,
+                label: 'Facebook',
+                onTap: () => _openShare(
+                  'https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(url)}',
+                ),
+              ),
+            ),
+            SizedBox(
+              width: buttonWidth,
+              child: _shareButton(
+                icon: Icons.alternate_email_rounded,
+                label: 'X',
+                onTap: () => _openShare(
+                  'https://twitter.com/intent/tweet?text=${Uri.encodeComponent(detail.title)}&url=${Uri.encodeComponent(url)}',
+                ),
+              ),
+            ),
+            SizedBox(
+              width: buttonWidth,
+              child: _shareButton(
+                icon: Icons.link_rounded,
+                label: 'Linki Kopyala',
+                onTap: () async {
+                  await Clipboard.setData(ClipboardData(text: url));
+                  if (!mounted) return;
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      const SnackBar(
+                        content: Text('Haber bağlantısı kopyalandı.'),
+                        duration: Duration(seconds: 1),
+                      ),
+                    );
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -276,8 +293,8 @@ class _NewsDetailRouteState extends State<NewsDetailRoute> {
     icon: Icon(icon, size: 17),
     label: Text(label),
     style: OutlinedButton.styleFrom(
-      minimumSize: const Size(48, 42),
-      padding: const EdgeInsets.symmetric(horizontal: 11),
+      minimumSize: const Size.fromHeight(44),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       side: const BorderSide(color: homeLine),
       foregroundColor: homeNavy,
       textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
