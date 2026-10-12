@@ -92,9 +92,9 @@ class NotificationPermissionService {
     switch (status) {
       case AuthorizationStatus.authorized:
       case AuthorizationStatus.provisional:
-      case AuthorizationStatus.ephemeral:
         return NotificationPermissionStatus.granted;
       case AuthorizationStatus.denied:
+      case AuthorizationStatus.deniedPermanently:
         return NotificationPermissionStatus.permanentlyDenied;
       case AuthorizationStatus.notDetermined:
         return NotificationPermissionStatus.denied;
