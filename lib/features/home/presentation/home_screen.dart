@@ -1005,31 +1005,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _miniNews(List<NewsModel> items) => LayoutBuilder(
-    builder: (context, constraints) {
-      final width = (constraints.maxWidth - 16) / 3;
-      final scale = MediaQuery.textScalerOf(context);
-      return SizedBox(
-        height:
-            width / 1.5 + scale.scale(12) * 4.2 + scale.scale(10) * 3.5 + 58,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemCount: items.length,
-          separatorBuilder: (_, _) => const SizedBox(width: 8),
-          itemBuilder: (_, i) => SizedBox(
-            width: width,
-            child: HomeArticleCard(
-              title: items[i].title,
-              coverUrl: items[i].coverUrl,
-              date: items[i].publishedAt,
-              style: HomeCardStyle.mini,
-              onTap: () => _action(HomeAction.news, items[i]),
-            ),
-          ),
-        ),
-      );
-    },
-  );
   Widget _newsCard(NewsModel news, {bool compact = true, bool video = false}) =>
       HomeArticleCard(
         title: news.title,
