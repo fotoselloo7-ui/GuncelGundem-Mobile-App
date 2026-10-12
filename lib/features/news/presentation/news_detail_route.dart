@@ -266,7 +266,7 @@ class _NewsDetailRouteState extends State<NewsDetailRoute> {
                 label: 'Linki Kopyala',
                 onTap: () async {
                   await Clipboard.setData(ClipboardData(text: url));
-                  if (!mounted) return;
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
                     ..showSnackBar(
