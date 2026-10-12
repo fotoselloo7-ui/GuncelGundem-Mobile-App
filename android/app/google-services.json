@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "684583670491",
+    "project_id": "komedifilm-85b4c",
+    "storage_bucket": "komedifilm-85b4c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684583670491:android:c389d4dad39529ccc972fe",
+        "android_client_info": {
+          "package_name": "tr.guncelgundem.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCfgu5_8Z2HsccHNJmVI3W3Q5ZrpEu_DM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
