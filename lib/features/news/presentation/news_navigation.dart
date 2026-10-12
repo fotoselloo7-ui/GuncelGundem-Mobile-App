@@ -47,12 +47,14 @@ class NewsNavigation {
       ),
       categories =>
         settings.arguments is CategoryModel
-            ? NewsFeedScreen(
-                mode: NewsFeedMode.categories,
-                repository: repository,
-                taxonomy: taxonomy,
-                initialCategory: settings.arguments as CategoryModel,
-              )
+            ? _isLocalCategory(settings.arguments as CategoryModel)
+                ? const CityScreen()
+                : NewsFeedScreen(
+                    mode: NewsFeedMode.categories,
+                    repository: repository,
+                    taxonomy: taxonomy,
+                    initialCategory: settings.arguments as CategoryModel,
+                  )
             : NewsCategoryExplorerScreen(taxonomy: taxonomy),
       categoryExplorer => NewsCategoryExplorerScreen(taxonomy: taxonomy),
       city => const CityScreen(),
@@ -89,6 +91,14 @@ class NewsNavigation {
     return screen == null
         ? null
         : MaterialPageRoute(settings: settings, builder: (_) => screen);
+  }
+
+  static bool _isLocalCategory(CategoryModel category) {
+    final slug = category.slug.trim().toLowerCase();
+    final name = category.name.trim().toLowerCase();
+    return slug == 'yerel-haberler' ||
+        slug == 'yerel' ||
+        name == 'yerel haberler';
   }
 
   static void openBreaking(BuildContext context) =>
